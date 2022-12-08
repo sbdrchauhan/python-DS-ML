@@ -183,7 +183,7 @@ matrix_2 = genfromtxt(
     csv_unzipped_file_2, delimiter=";", skip_header=False, dtype="unicode"
 )
 ```
-## change dimensions of matrix array
+## Change Dimensions of Matrix Array
 
 Sometimes we need to change the dimensions of the matrix
 
@@ -196,7 +196,7 @@ T or np.transpose() # inverst the axis of numpy matrix
 np.flip()  # reverse the order of elements along the given axis
 ```
 
-## merge two csv files
+## Merge Two csv Files
 
 Data files are generally splitted into many small files (csv) we should merge them. Let's say we have two files named
 ```
@@ -221,7 +221,7 @@ To select and view few entries:
 print(matrix[:5, :]) # row from 0:5, and all columns :
 ```
 
-## slice and view matrix array
+## Slice and View Matrix Array
 
 Other ways to view data from numpy array slicing:
 ```python
@@ -232,7 +232,7 @@ print("One element\t\t\t:", matrix[5000, 2])
 print("One element\t\t\t:", matrix[5000][2])
 ```
 
-## modify the matrix array
+## Modify the Matrix Array
 To drop first column:
 ```python
 # Drop the first column
@@ -255,7 +255,7 @@ other related functions:
 np.insert() # insert a value into an existing numpy matrix
 np.append() # add a value or row at the end of an existing numpy matrix
 ```
-## remove commas, strings, dollar signs
+## Remove Commas, Strings, Dollar Signs
 
 Next let's work on removing commas, periods, and dollar signs attached into the numerical values.
 
@@ -300,7 +300,7 @@ Tips: if data appeared in scientific notation and it's hard to read, do this for
 np.set_printoptions(suppress=True)
 ```
 
-## what is broadcasting in numpy array?
+## what is Broadcasting in numpy array?
 
 Broadcasting is a rich topic, and also very important concept. This helps to do the large numerical operations efficiently. If there were no vectorizing (and broadcasting) then, we would have to depend on the `for` loops to do the same operation, and that would be a huge complexity in terms of computational power and also time. see image below:
 
@@ -339,11 +339,25 @@ np.log()  # calcualte natural logarithm for each element in the matrix
 np.exp()
 ```
 
-## Conditional selection
+## Conditional Selection/Boolean Array Indexing
 `matrix[matrix[:,1]<20]` we select second column and see only those values that are less than 20, and use it as mask to select all other columns of the total matrix that satisfies the mask conditions.
 ```python
 # Select rows for which the price_usd column is lower than 20
 matrix[matrix[:, 1] < 20]
+
+a = np.array([
+    [1,2],
+    [3,4],
+    [5,6]
+])
+bool_idx = (a>2)        # returns True and False of same shape
+a[bool_idx]
+>>> [3 4 5 6]
+# same things: short form
+a[a>2]                 # returns all values greater than 2
+filt = (a>2) & (a<5)   # more conditions
+a[filt]
+>> [3 4]
 ```
 Some related methods:
 ```python
@@ -404,3 +418,6 @@ cny_rate = cc.convert(1, "USD", "CNY")
 matrix[:, 1] * inr_rate, matrix[:, 1] * cny_rate
 ```
 In this small dataset, it didn't matter much, but always vectorize when dealing with the massive datasets or slow functions. **vectorization is worth it!**
+
+## Further Resources:
+[python-numpy-tutorial](https://cs231n.github.io/python-numpy-tutorial/)
