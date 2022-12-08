@@ -54,16 +54,20 @@ b.ndim
 b.shape
 >>> (2,3)
 
-# Get Type
+# Get dataType
 print(b.dtype)
 >>> int64
 
-# Get Size
+# Get item size
+print(a.itemsize)
+>>> 2  # bytes
+
+# Get totalSize
 print(b.nbytes)
 >>> 64
 ```
 
-## Numpy Indexing and Accessing Elements
+## Numpy Indexing and Accessing Elements, Sorting
 ```python
 # first see how we access elements in list
 python_list = [
@@ -97,6 +101,11 @@ c = np.array([
   ])
 # access 1st row, 1st col, 0th value
 print(c[1, 1, 0])
+
+# to sort an array
+arr = np.array([2,1,5,3,7,4,6,8])
+np.sort(arr)
+>>> [1 2 3 4 5 6 7 8]
 ```
 
 ## Numpy Shape-shifting
@@ -127,6 +136,37 @@ np.hstack((h1,h2))        # or, np.concatenate((h1,h2), axis=1)
 a = np.full((4,8),3)
 a_flat = a.flatten()           # all values are flatten to 1D
 b = np.reshape(a_flat, (2,16)) # 4x8=32=2x16 total nb. should match to reshape
+```
+
+## How to Convert 1D array into a 2D array (adding newaxis)
+We can use `np.newaxis` and `np.expand_dims` to increase the dimensions of the existing array. Using `np.newaxis` will increase the dimensions of the array by one dimension when used once. This means that a **1D** array will become **2D** array, a **2D** array will become **3D** array, and so on.
+```python
+# 1D array
+a = np.array([1,2,3,4,5,6])
+print(a)
+print(a.shape)
+>>> [1 2 3 4 5 6]
+     (6,)
+
+# make 2d by adding in row dim
+row_vec = a[np.newaxis, :]
+print(row_vec)
+print(row_vec.shape)
+>>> [[1 2 3 4 5 6]]
+      (1, 6)
+
+# make 2d by adding col dim
+col_vec = a[:, np.newaxis]
+print(col_vec)
+print(col_vec.shape)
+>>> [[1]
+     [2]
+     [3]
+     [4]
+     [5]
+     [6]]
+    (6, 1)
+# expand_dims works similary. see doc.
 ```
 
 ## Numpy Math & Broadcasting
@@ -300,13 +340,11 @@ Tips: if data appeared in scientific notation and it's hard to read, do this for
 np.set_printoptions(suppress=True)
 ```
 
-## what is Broadcasting in numpy array?
+## What is Broadcasting in numpy array?
 
 Broadcasting is a rich topic, and also very important concept. This helps to do the large numerical operations efficiently. If there were no vectorizing (and broadcasting) then, we would have to depend on the `for` loops to do the same operation, and that would be a huge complexity in terms of computational power and also time. see image below:
 
-<p align="center">
-  <img src="https://github.com/sbdrchauhan/python-DS-ML/blob/master/07_MOOC/CoRise_two_weeks_py_for_ds/Images/broadcasting.png" width=50% height=50%>
-</p>
+![broadcasting image](../07_MOOC/CoRise_two_weeks_py_for_ds/Images/broadcasting.png)
 
 Broadcasting is a computationally and memoery-efficient way of calculating multiple equations at once, which is what we need for most machine learning algorithms.
 
@@ -419,5 +457,6 @@ matrix[:, 1] * inr_rate, matrix[:, 1] * cny_rate
 ```
 In this small dataset, it didn't matter much, but always vectorize when dealing with the massive datasets or slow functions. **vectorization is worth it!**
 
-## Further Resources:
-[python-numpy-tutorial](https://cs231n.github.io/python-numpy-tutorial/)
+## More Resources:
+* [python-numpy-tutorial](https://cs231n.github.io/python-numpy-tutorial/)
+* [Numpy user guide](https://numpy.org/doc/stable/user/)

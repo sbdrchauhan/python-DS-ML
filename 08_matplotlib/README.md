@@ -7,6 +7,7 @@ pip install --upgrade matplotlib    # to upgrade already installed ones
 ## Import package:
 ```python
 import matplotlib.pyplot as plt
+import numpy as np    # almost always in need
 ```
 
 ## Style of the Plot:
@@ -62,4 +63,39 @@ plt.savefig('plot.png')
 plt.show()
 ```
 The final output plot from above code comes out something like this.
-![basiclineplot](./plot1.png)
+
+<img src="./plot1.png" 
+        width="600" 
+        height="400" 
+        style="display: block; margin: 0 auto" />
+
+
+## 02. Bar Charts
+We can try plotting the same data from above, but now with bar plots placing side-bys-side for different developers. This one is tricky here. We can just replace `plot()` with `bar()` but it will by default put the bars on top of each other. We want them to be side-by-side. We can specify the width of the bars and tell different bar to either shift left or right of that width value, so that when many bars are plotted then they will be shifted and so we can see them all side-by-side.
+```python
+# need to use numpy array for x values, but similar length as previous
+# indexes was needed to make the offsets work
+# to get the true x values, later we use xticklabels
+x_indexes = np.arange(len(dev_age))
+width = 0.25   # default is 0.8 (play to see what you like width to be)
+
+y1_values = dev_salaries      # as above
+y2_values = py_dev_salarires  # as above
+
+# now do bar plot
+plt.bar(x_indexes - width, y1_values, width=width, color='r', label='All Devs') # notice the shift in x_indexes
+plt.bar(x_indexes, y2_values, width=width, color='b', label='Python')
+
+# to make xticks, this will fix to true x values shown
+plt.xticks(ticks=x_indexes, labels=dev_age)
+
+# same with most of other stuffs (as above)
+```
+When you value large lists of values to plot in bar, then vertical bars won't be good, also because the labels in x axis won't have enough room to display as well So, in these scenarios if you need to make the bar plots, then make it **horizontal bar plots**. You just need `barh()` instead of `bar`; and adjust the labels as well. *Read docs for more*.
+
+The final output plot from above code comes out something like this.
+
+<img src="./plot2.png" 
+        width="600" 
+        height="400" 
+        style="display: block; margin: 0 auto" />
