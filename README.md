@@ -17,3 +17,5 @@
 [06_resources](https://github.com/sbdrchauhan/python-DS-ML/tree/master/06_resources)
 
 [07_MOOC](https://github.com/sbdrchauhan/python-DS-ML/tree/master/07_MOOC/DataCamp)
+
+[08_matplotlib](https://github.com/sbdrchauhan/python-DS-ML/tree/master/08_matplotlib)
