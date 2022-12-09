@@ -134,11 +134,7 @@ plt.show()
 ```
 The final output plot from above code comes out something like this.
 
-<img src="./plot3.png" 
-        width="400" 
-        height="400" 
-        style="display: block; margin: 0 auto" />
-        
+![pie chart](./plot3.png)        
         
 ## References:
 * [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
