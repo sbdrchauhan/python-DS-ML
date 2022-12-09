@@ -135,7 +135,7 @@ plt.show()
 The final output plot from above code comes out something like this.
 
 <img src="./plot3.png" 
-        width="600" 
+        width="400" 
         height="400" 
         style="display: block; margin: 0 auto" />
         
