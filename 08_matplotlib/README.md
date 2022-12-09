@@ -99,3 +99,46 @@ The final output plot from above code comes out something like this.
         width="600" 
         height="400" 
         style="display: block; margin: 0 auto" />
+        
+## 03. Pie Charts:
+Just like bar charts, pie charts are used to display categorical values, but in proportions unlike bar charts they show total values in each bar. Don't use pie charts if you have more than 5 items to compare, it just makes your charts too crowded, in that case just use bar charts either horizontal or vertical ones.
+```python
+from matplotlib import pyplot as plt
+plt.style.use('fivethirtyeight')
+
+# Language Popularity: taking only 5 items
+slices = [59219, 55466, 47544, 36443, 35917]
+labels = ['JavaScript', 'HTML/CSS', 'SQL', 'Python', 'Java']
+explode = [0,0,0,0.1,0]  # to emphasize any pie items
+
+# for complete options you can check docs
+plt.pie(
+    slices,
+    labels=labels,
+    explode=explode,
+    shadow=True,
+    startangle=90,     # rotates pie items
+    autopct='%1.1f%%', # to show % in items
+    wedgeprops={'edgecolor':'black'}
+)
+
+plt.title("My awesome pie")
+plt.show()
+
+# Colors:
+# using hex color codes make look more professional
+# Blue = #008fd5
+# Red = #fc4f30
+# Yellow = #e5ae37
+# Green = #6d904f
+```
+The final output plot from above code comes out something like this.
+
+<img src="./plot3.png" 
+        width="600" 
+        height="400" 
+        style="display: block; margin: 0 auto" />
+        
+        
+## References:
+* [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
