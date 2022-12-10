@@ -1,5 +1,5 @@
 # Table of Content:
-1. [Line Plot](#01.-line-plot-basic:)
+1. [Line Plot](#line-plot)
 2. [Bar Charts](#02.-bar-charts:)
 3. [Pie Charts](#03.-pie-charts:)
 4. [Stack Plots](#04.-stack-plots:)
@@ -26,7 +26,7 @@ import numpy as np    # almost always in need
 plt.style.available                # to see what are available styles to choose from
 plt.style.use('fivethirtyeight')   # to use one of available styles
 ```
-
+<div id='line-plot'/>
 ## 01. Line Plot (Basic):
 ```python
 # developer ages (x values)
