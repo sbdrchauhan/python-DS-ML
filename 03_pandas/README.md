@@ -87,6 +87,7 @@ df.columns.tolist()    # get the col names and make a list
 df.index       # to see the names of index
 df.info()      # shows more info, including dtypes of each column
 df.describe()  # quick statistical overview of numerical cols
+df['categorical_col'].describe()   # to see describe works for Obj col
 df.to_string() # render a df to a console-freindly tabular output
 df.values      # gives us data only w/o index and cols, like numpy matrix
 
@@ -140,6 +141,8 @@ df.loc['row1':'row5', 'col1':'col5']      # return first 5 rows and 5 columns
 df.loc[['row1','row4'],['col1','col6']]   # return specified rows & cols
 ```
 
+>Data preparation accounts for [about 80\% of the work](https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task-survey-says/?sh=532dd6346f63) of a Data Scientist.
+
 ## methods for a single column
 ```python
 df['col1'].value_counts(normalize=True)   # counts the number of unique values
@@ -148,6 +151,10 @@ df['col'].unique()                        # returns list of unique values in col
 df['col'].replace('old_value','new_value', inplace=True)
 df['col'].fillna('fill_value', inplace=True)
 ```
+
+>Other related functions:
+
+![min max median](./images/min_max_median.png)
 
 ## work with index
 ```python
@@ -189,7 +196,7 @@ df.loc[filt, ['col1', 'col2', 'col3']]
 ## modifying/updating df as need
 ```python
 # replace all spaces in col names with underscore
-df.columns = df.columns.str.replacee(" ", "_")
+df.columns = df.columns.str.replace(" ", "_")
 
 # rename only columns we want to
 df.rename(columns={'old_col1_name':'new_col1_name',
@@ -228,6 +235,25 @@ df.applymap(len)   # here len function is applied to each values in df
 ```python
 df['col'].map({'old_val1':'new_val1', 'old_val2':'new_val2'})
 ```
+
+## Update using `replace`:
+```python
+# replace categorical values with another values:
+# we want to change to True and False to strings 't', and 'f' in df
+df['col'] = df['col'].replace({"string t in df col": True,
+                              "str f in df col": False}).astype("bool")
+
+# replace string obj. using string operations
+# We want to replace $45,000, $ and comma (,) from prices, then convert to float
+df['col'] = df['col']
+            .str.replace("$", "", regex=True)
+            .str.replace(",", "", regex=True)
+            .astype("float")
+```
+
+There are great docs available for such string object column, see [here](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.capitalize.html). Also, let's see some more of these string methods.
+
+![more string methods](./images/str_more.png)
 
 ## Add/Remove Rows and Columns
 ```python
@@ -303,13 +329,30 @@ df.median()   # calculates median of all numeric col
 df.describe()  # more stats of numeric cols
 ```
 
-## Cleaning Data
+> `inplace=True` should be avoided, if you can, [read this](https://towardsdatascience.com/why-you-should-probably-never-use-pandas-inplace-true-9f9f211849e4).
+
+## Cleaning Data, `NaN`, `None`, Wrong Types, and Unusable Formats:
+See the figure below [from Kaggle source](https://www.kaggle.com/code/parulpandey/a-guide-to-handling-missing-values-in-python), how we can approach to clean data/columns depending on different situations. There is a difference between `NaN` and `None`. *NaN* means "not a number", referring to an undefined number, but it still allows us to perform calculations on the column with these values. This is not the case for *None*, which is just missing data and should only be used when dealing with **object** data types. We always, almost want to change the *None* to *Nan*.
+
+>To use `interpolate()` see [here](https://www.analyticsvidhya.com/blog/2021/06/power-of-interpolation-in-python-to-fill-missing-values/) for quick overview to use it.
+
+![cleaning data](./images/cleaning_data.png)
 ```python
+## make a list of columns in df that has any one of its values as nan
+df.columns[df.isnull().any()].to_list()
+
+## see how interpolate works
+# Forward fill is the default approach for interpolate
+df_cal["maximum_nights"] = df_cal["maximum_nights"].interpolate()
+
 ## if we just want to remove missing value
 df.dropna(axis='index', how='any')   # default arguments; it removes np.nan, None
 
 # drop if value in one of col is missing
 df.dropna(axis=0, how='any', subset=['col'])
+
+# to completely drop the columns
+df.drop(columns=['col1', 'col3', 'col4'], inplace=True)
 
 # if df has custom missing values, replace it with np.nan
 df.replace('NA', np.nan, inplace=True)
@@ -332,11 +375,15 @@ df['col'].astype(float)   # convert col to float dtype
 na_vals = ['NA', 'Missing', 'NAN', 'NONE', 'MISSING']
 df = pd.read_csv('path/to/csv', index_col='col1', na_values=na_vals)
 ```
+>Some more related functions:
+
+![is null](./images/is_null.png)
 
 ## Dates and Time Series data
 ```python
 # convert string of col to datetime obj
-df['col'] = pd.to_datetime(df['col'])    # convert col to datetime obj, if compatible
+df['col'] = pd.to_datetime(df['col'])      # convert col to datetime obj, if compatible
+df['col'] = df['col'].astype('datetime64') # using astype() casting
 
 # explicitly telling how our col is formatted as datetime in original string
 df['col'] = pd.to_datetime(df['col'], format='%Y-%m-%d %I-%p')
@@ -376,6 +423,98 @@ df.resample('W').agg({'col1':'mean', 'col2':'max', 'col3':'min', 'col4':'sum'})
 ```
 **Tips**: We can also load the csv with datetime object formatted during the load-time only. See if you like that way also.
 
+## Merging DataFrames:
+* DataFrames might be reperesented in one of the two formats i.e. wide or long. Most preferrably, we want the wide df most of the time. See [here](https://www.statology.org/long-vs-wide-data/#:~:text=A%20dataset%20can%20be%20written,repeat%20in%20the%20first%20column.&text=Notice%20that%20in%20the%20wide,the%20first%20column%20is%20unique.) to learn more.
+* To learn various `aggfunc` that are available to use in `groupby` or other pandas method. See [here](https://datascientyst.com/list-aggregation-functions-aggfunc-groupby-pandas/).
+
+There are various types of joins we can think of. See below.
+
+![joins](./images/joins.png)
+
+`pd.merge()` method is mostly used for these type of tasks. It implements number of types of joins: the *one-to-one, many-to-one,* and *many-to-many* joins.
+
+```python
+# concatenating two df stacking manner, fixing index as well
+pd.concat((df1, df2), axis=0, ignore_index=True)
+# vertical join, meaning column wise, side-by-side
+pd.concat((df1, df2), axis=1, ignore_index=True)
+```
+
+### One-to-One joins, many-to-one, many-to-many:
+The simplest type of joins is this one. This can also be achieved by column-wise concatenation. Let's say we have two dataframes as shown:
+
+![dfs](./images/one_to_one.png)
+
+Then, we can simply combine these two dfs using `merge()` method. Notice, the common columns 'employee' doesn't have to be aligned exactly, orders can be anywhere, but the method manages to find it. Also, the default behavior of *merge* is not to use index.
+```python
+# for all the types of joins here we have the same codes
+df3 = pd.merge(df1, df2)
+df3
+```
+Output looks like this:
+
+![one out](./images/one_out.png)
+
+### Specifying using the Merge Key
+The default behavior of `pd.merge()` is to find the common columns from dfs and use those columns as the keys. But columns names may not be always same or match so nicely. We have other parameters to play with inside the `pd.merge()` for these cases.
+
+* We can use `on` keyword as show below example:
+```python
+pd.merge(df1, df2, on='employee')
+```
+
+![on key](./images/on_key.png)
+
+* Using `left_on` and `right_on` keywords.
+If we wanted to merge dfs that has different column names in both dfs.
+```python
+pd.merge(df1, df3, left_on='employee', right_on='name')
+
+# since result has redundant cols, we can drop on of them
+pd.merge(df1, df3, left_on="employee", right_on="name").drop('name', axis=1)
+```
+
+![left on right on](./images/left_right_on.png)
+
+* merging on `left_index` and `right_index`
+Sometimes, you have to merge using dfs indexes.
+```python
+pd.merge(df1a, df2a, left_index=True, right_index=True)
+```
+
+![index true](./images/left_right_index.png)
+
+* Other times you might need to use both index and column to join
+```python
+pd.merge(df1a, df3, left_index=True, right_on='name')
+```
+
+![index col](./images/index_col.png)
+
+### Specifying Set Arithmetics for Joins: inner, outer:
+These situations comes when values appears in one key column, but not on the other key column of other df. What to do then, which one to keep, left or right df? By default, the joins between dfs are `inner` i.e. merge will only keep rows where values matches in both the dfs we are trying to merge. See below:
+
+![default merge](./images/default_merge.png)
+
+Here we can see only the row with 'Mary' is kept because that value is only the common value. We could specify the type of joins (although default is inner)
+```python
+pd.merge(df6, df7, how='inner')
+```
+
+Other options are: `outer, left, right`. Outer will return total, even no values in one or other df, it will put nan there. Let's see one example for each of other types:
+
+![outer](./images/outer.png)
+
+![left](./images/left.png)
+
+### Overlapping column names in dfs
+What if both dfs has many column names exact, then how will we distinguish when merged which columns are coming from which df? `merge()` will automatically put `_x` and `_y` at the end of the conflicting column names but we can provide our own.
+```python
+pd.merge(df8, df9, on="name", suffixes=["_L", "_R"])
+```
+
+![overlap cols](./images/overlap_cols.png)
+
 ## Reading/Writing Data - other sources like excel, json, etc.
 ```python
 # csv file
@@ -403,7 +542,11 @@ url_df = pd.read_csv("url_website")
 ## Resources:
 
 * [pandas cheatsheet](https://github.com/pandas-dev/pandas/blob/main/doc/cheatsheet/Pandas_Cheat_Sheet.pdf)
-
+* [Corise: Python for Data Science](https://corise.com/course/python-for-data-science)
+* [Comprehensive data exploration with Python](https://www.kaggle.com/code/pmarcelino/comprehensive-data-exploration-with-python/notebook)
+* [Comprehensive Data Analysis with Pandas](https://www.kaggle.com/code/prashant111/comprehensive-data-analysis-with-pandas/notebook)
+* [Data Cleaning](https://www.kaggle.com/learn/data-cleaning)
+* [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
 
 
 
