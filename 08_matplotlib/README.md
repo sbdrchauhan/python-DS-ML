@@ -1,5 +1,5 @@
 # Table of Content:
-1. [Line Plot](#01.-line-plot-(basic):)
+1. [Line Plot](#01.-line-plot-basic:)
 2. [Bar Charts](#02.-bar-charts:)
 3. [Pie Charts](#03.-pie-charts:)
 4. [Stack Plots](#04.-stack-plots:)
