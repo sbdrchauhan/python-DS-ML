@@ -1,3 +1,14 @@
+# Table of Content:
+1. [Line Plot](#01.-line-plot-(basic):)
+2. [Bar Charts](#02.-bar-charts:)
+3. [Pie Charts](#03.-pie-charts:)
+4. [Stack Plots](#04.-stack-plots:)
+5. [Histograms](#05.-histograms:)
+6. [Scatter Plots](#06.-scatter-plots:)
+7. [Plotting DateTime](#07.-plotting-dateTime-plot_date:)
+8. [Plotting Data in Real Time](#08.-plotting-live-data-in-real-time:)
+9. [Subplots](#09.-subplots:)
+
 ## Install matplotlib using `pip`:
 ```bash
 pip install matplotlib              # to install for the first time
