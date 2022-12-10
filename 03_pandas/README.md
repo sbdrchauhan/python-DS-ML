@@ -1,3 +1,11 @@
+![pandas](./images/pandas.png)
+
+>Pandas is a tool or package that helps you deal with the datasets (in csv, json, excel, ...), you can quickly see what are the columns, what data types are stored, and what you can do with it by cleaning and formatting that it can be ready to use later for the machine-learning algorithms. Pandas are built on top of numpy.
+
+>The reason to use pandas can be see below where we compare the numpy with pandas. Each column of pandas is an array (pandas call it Series object). The convinence of indexes and column names makes selecting elements more straightforward in pandas than in numpy. Instead of using numbers (need to look up about it), we can use strings/labels to look up or select elements, which makes it so much easier for this task. We can even use indexes to merge different datasets.
+
+![numpy vs pandas](./images/numpy_vs_pandas.png)
+
 # :panda_face: pandas notes :blue_book:
 
 ## install pandas using pip
@@ -5,14 +13,66 @@
 pip install pandas
 ```
 
-## open the csv file
+## Create DataFrame (df) from Numpy:
 ```python
-import pandas as pd                     # standard to use pd alias
-import numpy as np                      # guaranteed to be needed
-pd.set_option('display.max_columns',85) # to see 85 columns
-pd.set_option('display.max_rows',85)    # to see 85 rows
+# create your first dataframe (df)
+df = pd.DataFrame(
+    np.array([
+        [1,2],
+        [3,4]
+    ]),
+    columns=['col1', 'col2']
+)
+print(df)
+>>>    col1  col2
+    0     1     2
+    1     3     4
+
+```
+
+## Create Pandas Series from python list:
+```python
+import pandas as pd
+
+pandas_series = pd.Series(
+    [1, 2, 3, 4],  # Python list
+    index=["a", "b", "c", "d"]  # Python list
+)
+print(pandas_series)
+>>> a    1
+    b    2
+    c    3
+    d    4
+    dtype: int64
+
+```
+
+>Let's see the difference between Series and DataFrame.
+
+![series vs df](./images/seris_vs_df.png)
+
+## Load the `csv` File into df:
+```python
+import pandas as pd                        # standard to use pd alias
+import numpy as np                         # guaranteed to be needed
+pd.set_option('display.max_columns',85)    # to see 85 columns
+pd.set_option('display.max_columns', None) # to display all colns (whatever)
+pd.set_option('display.max_rows',85)       # to see 85 rows
+# Don't show numbers as scientific notation
+pd.set_option("display.float_format", "{:.2f}".format)
 
 df = pd.read_csv('/path/to/data/file', index_col='col_name')
+```
+
+> See [here](https://pandas.pydata.org/docs/user_guide/io.html) for docs to see what different kinds of files pandas can load as dataframe, and also to see all the functionalities for each kinds of loads of the files.
+
+## Load the *pickle* and *parquet* files into df:
+```python
+# Read a Python Pickle file
+df_list = pd.read_pickle("listings_content.pkl")
+
+# Read a PyArrow Parquet file
+df_cal = pd.read_parquet("calendar_content.parquet", engine="pyarrow")
 ```
 
 ## inspecting the df
@@ -23,25 +83,47 @@ df.tail()      # prints last 5 rows of df
 df.dtypes      # returns the data types of all cols in df
 df.shape       # shows the (rows,columns) numbers in tuple form
 df.columns     # gives list of all columns names
+df.columns.tolist()    # get the col names and make a list
 df.index       # to see the names of index
 df.info()      # shows more info, including dtypes of each column
 df.describe()  # quick statistical overview of numerical cols
 df.to_string() # render a df to a console-freindly tabular output
+df.values      # gives us data only w/o index and cols, like numpy matrix
+
+# copying df, and then working on copy
+df_copy = df.copy()
 ```
 
-## access a single column
+## Selecting *Only* One Column:
 ```python
 df['col_name']    # column name is string type (Object)
                   # preferred way
                   # returns Sereis Object
 df[['col_name']]  # double brackets returns df Object
 df.col_name       # works if col_name has no spaces
-```
 
-## access multiple columns
+# also using loc or iloc
+df.loc[:, 'col_name']
+```
+>Slicing with `loc` is inclusive, while slicing with `iloc` is exclusive for the end.
+
+## Selecting Multiple Columns:
 ```python
 df[['col1','col2','col3']]  # pass list of columns
+
+# using loc:
+df.loc[:, ['col1', 'col2', 'col3']]
+
+# using loc slicing:
+df.loc[:, 'col1':'col3']
+
+# using iloc:
+df.iloc[:, [0,3,5]] # all rows, specified cols
+
+# using iloc slicing:
+df.iloc[:, 0:5]     # all rows, first 5 cols
 ```
+>Generally, if there are few typos that doesn't have any pattern in them, then it is better to access those values, and manually update them. But, if there are lots of typos and errors that have some pattern in them, then we can even use powerful methods like using `regex` to deal with it. Read [here](https://kanoki.org/2019/11/12/how-to-use-regex-in-pandas/) for more details on *regex in pandas*.
 
 ## access row(s) using `.loc[]` or `.iloc[]`
 `iloc[]` is integer indexer. It needs integer to index rows. `loc[]` is more versatile in that it can acess rows based on labels, and that is easier most of the time. Nonetheless, both are important.
@@ -318,6 +400,9 @@ json_df = pd.read_json('new_name.json')
 url_df = pd.read_csv("url_website")
 ```
 
+## Resources:
+
+* [pandas cheatsheet](https://github.com/pandas-dev/pandas/blob/main/doc/cheatsheet/Pandas_Cheat_Sheet.pdf)
 
 
 
