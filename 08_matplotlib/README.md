@@ -147,9 +147,6 @@ plt.show()
 The final output plot from above code comes out something like this.
 
 ![pie chart](./plot3.png)        
-        
-## References:
-* [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
 
 ## 04. Stack Plots:
 Scene: How much each players/developers worked on the game/project in total minutes/days of 8. Stack plots are good to do comparison between items/people/things over the span of times.
@@ -504,3 +501,6 @@ ax2.set_ylabel('Median Salary (USD)')
 The final output plot from above code doing multiple plots in a same figure object comes out something like this.
 
 ![dateTime](./subplots.png)
+
+## References:
+* [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
