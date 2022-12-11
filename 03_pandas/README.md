@@ -86,6 +86,7 @@ df.columns     # gives list of all columns names
 df.columns.tolist()    # get the col names and make a list
 df.index       # to see the names of index
 df.info()      # shows more info, including dtypes of each column
+df.info(verbose=True, show_counts=True)  # to make sure Non-Null cols show up
 df.describe()  # quick statistical overview of numerical cols
 df['categorical_col'].describe()   # to see describe works for Obj col
 df.to_string() # render a df to a console-freindly tabular output
@@ -328,6 +329,7 @@ df.groupby('Country')['Salary'].agg(['median', 'mean'])
 df.median()   # calculates median of all numeric col
 df.describe()  # more stats of numeric cols
 ```
+>`.apply()` method in its inner working, actually in not so much efficient, it uses for loop. If we want to vectorize and make faster to use `apply` and `lambda` function, then you can read [here](https://towardsdatascience.com/do-you-use-apply-in-pandas-there-is-a-600x-faster-way-d2497facfa66).
 
 > `inplace=True` should be avoided, if you can, [read this](https://towardsdatascience.com/why-you-should-probably-never-use-pandas-inplace-true-9f9f211849e4).
 
