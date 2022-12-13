@@ -333,6 +333,55 @@ df.describe()  # more stats of numeric cols
 
 > `inplace=True` should be avoided, if you can, [read this](https://towardsdatascience.com/why-you-should-probably-never-use-pandas-inplace-true-9f9f211849e4).
 
+### More GroupBy Tricks:
+--> From [towardsdatascience.com page by Suraj Gurav](https://towardsdatascience.com/5-pandas-group-by-tricks-you-should-know-in-python-f53246c92c94).
+
+In Pandas, `groupby` splits all the records from the dataset into different categories or groups and we can then analyze the data by these groups. `groupby()` function applied on any categorical column will return `GroupBy` object. Then we can use different methods on this object and even aggregate other columns to get the summary view of the dataset.
+
+The groupby object is like a dictionary where keys are the unique groups and values are the columns of df that was not mentioned in groupby. Just like dictionary, there are several methods to get the required data efficiently.
+
+The number of groups should be equal to the number of unique values that you called `groupby` on.
+```python
+df_group = df.groupby("categorical_col")
+type(df_group)
+>>> pandas.core.groupby.generic.DataFrameGroupBy
+
+## to get the number of groups
+df_group.ngroups
+>>> # nb of groups (from above)
+
+## to know the size of each group
+df.groupby('cat_col').size()    # shows how many rows in each group
+df.groupby('cat_col').count()   # shows non-null values in each col
+
+## how to get the first, last, or any row from each group
+df.groupby('cat_col').first()  # shows first row for each group
+df.groupby('cat_col').last()   # shows last row for each group
+df.groupby('cat_col').nth(3)   # access 4th row (0-indexing)
+
+## how to extract/select just one group from groupby obj
+df_group.get_group('group_value_to_look')
+# this getting group can be used in replace to slicing the dataframe
+df[df['cat_col']=='Home']
+# same as
+df_group = df.groupby("cat_col")
+df_group.get_group('Home')  # much faster this way
+
+## Aggregate Multiple Columns with Different Aggregate Functions:
+# This is the most use case of groupby
+df.groupby('categorical_col')[['col1','col2']].mean()
+# above, we applied mean function to col1 and col2
+# other agg func: min(), max(), count(), median(), std()
+
+# we can apply multiple agg func on same col or on different cols
+# applying multiple agg func on same column
+df.groupby('cat_col')[['col1']].aggregate([min, max, sum, 'mean'])  
+# this will give statistics about col in each group
+
+## apply multiple columns different func
+df.groupby('cat_col').aggregate({'col1':'count', 'col2':'mean'})
+```
+
 ## Cleaning Data, `NaN`, `None`, Wrong Types, and Unusable Formats:
 See the figure below [from Kaggle source](https://www.kaggle.com/code/parulpandey/a-guide-to-handling-missing-values-in-python), how we can approach to clean data/columns depending on different situations. There is a difference between `NaN` and `None`. *NaN* means "not a number", referring to an undefined number, but it still allows us to perform calculations on the column with these values. This is not the case for *None*, which is just missing data and should only be used when dealing with **object** data types. We always, almost want to change the *None* to *Nan*.
 

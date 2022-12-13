@@ -153,3 +153,27 @@ git rebase master     # latest commits of master branch will be the base for thi
                        # for linear one-line log history
 ```
 
+## Important Commands to know:
+```bash
+## Whenever you fork other's repo, the repo in your account is called "downstream", and the
+# remote repo is called "upstream".
+# To sync changes made in upstream repo into your downstream repo, you still need to configure
+# a remote that points to upstream rep
+git remote -v        # this should already have been configured to your account downstream repo
+                     # as the origin remote
+# this will create upstream remote pointing to original repo
+# just like creating origin remote, here upstream is just the name, you could name it whatever suits
+git remote add upstream <original_rep_url_https/ssh>
+
+# to sync with upstream
+git merge upstream/master
+
+## once you fork, clone your forked repo, make changes, codes, etc. then push the changes to your
+# forked repo, then finally if you want you can start a pull request to suggest the changes
+```
+
+Also, see the following Git Cheat Sheet!
+
+![git cheat sheet](./Git_cheat_sheet.jpeg)
+
+
