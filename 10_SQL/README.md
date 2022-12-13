@@ -66,7 +66,7 @@ ORDER BY col1 ASC/DESC;
 ```
 When an `ORDER BY` clause is specified, each row is sorted alpha-numerically based on the specified column's value.
 
-## Limiting results to a subset using `LIMIT` and `OFFSET`:
+### Limiting results to a subset using `LIMIT` and `OFFSET`:
 The `LIMIT` wll reduce the number of rows to return, and the optional `OFFSET` will specify where to begin counting the number of rows from.
 ```sql
 SELECT col1, col2
