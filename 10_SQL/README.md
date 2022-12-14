@@ -76,10 +76,35 @@ ORDER BY col1 ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 ```
 
+## Multi-table queries with `JOINS`:
+Of course in the real world, we don't just have the single table, but data closely related are spread across several tables, and we should be able to access from multiple tables.
 
+Tables that share information about a single entity need to have a *primary key* that identifies that entity *uniquely* across the database.
 
+### Let's see **INNER JOIN** type of join:
+```sql
+/* select query with INNER JOIN on multiple tables */
+SELECT col1, another_table_col2, ...
+FROM myTable
+INNER JOIN anotherTable
+    ON myTable.id = anotherTable.id
+WHERE condition(s)
+ORDER BY col, ... ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+```
 
-
+### OUTER JOINS:
+In the inner joins, resulting table only contains data that belongs in both of the tables. But, most of the time, data won't be symmetric, in that case, in order to not lose data from any of the joined tables, we need to use either `LEFT JOIN`, `RIGHT JOIN`, or `FULL JOIN`.
+```sql
+/* Select query with LEFT/RIGHT/FULL JOINs on multiple tables */
+SELECT col1, another_table_col, ...
+FROM myTable
+INNER/LEFT/RIGHT/FULL JOIN another_table
+    ON myTable.id = another_table.matching_id
+WHERE condition(s)
+ORDER BY col, ... ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+```
 
 
 
