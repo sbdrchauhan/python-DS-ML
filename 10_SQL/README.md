@@ -41,11 +41,17 @@ WHERE col2='value';
 ```
 Some more complex queries can be made by combining several of ANDs and ORs as shown below:
 
-![image1](./images/img1.png)
+<p align="center">
+    <img src="./images/img1.png" alt="sql joins types" width="700" />
+</p>
+
 
 When doing `WHERE` clauses with the columns containing text data, we have several more sql commands to do selection of the values in the column that works with the strings. See below:
 
-![image2](./images/img2.png)
+<p align="center">
+    <img src="./images/img2.png" alt="sql joins types" width="700" />
+</p>
+
 
 ## Filtering and Sorting Query Results:
 `DISTINCT` keyword will discard rows that have a duplicate column value.
