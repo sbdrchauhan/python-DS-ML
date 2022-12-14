@@ -3,7 +3,7 @@
 sudo apt install git
 ```
 
-## configure the global settings:
+## configure the global/initial settings:
 This will allow others in the collaboration to recognize you. You change this once and done for all time!
 ```bash
 ## to make the settings:
@@ -13,6 +13,9 @@ git config --global user.email "your_email@email.com"       # this email will be
 ## to check if you have already done:
 git config --global user.name                               # should show you your username that has set
 git config --global user.email                              # shows your email that has set
+
+## to change your main branch name to "main" (if default, master)
+git branch -M main
 ```
 
 ## Starting from your local machine/terminal (from scratch):
@@ -70,7 +73,7 @@ git remote rm origin
 
 # now, how to send changes from local to remote?
 git push <remote_alias> <branch>
-git push origin master
+git push -u origin master
 > Username:         # asks your passowrd and so on
 > Password:
 ```

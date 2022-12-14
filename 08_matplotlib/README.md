@@ -77,10 +77,11 @@ plt.show()
 ```
 The final output plot from above code comes out something like this.
 
-<img src="./plot1.png" 
+<p align="center">
+<img src="./images/plot1.png" 
         width="600" 
-        height="400" 
-        style="display: block; margin: 0 auto" />
+        height="400">
+        </p>
 
 ## 02. Bar Charts:
 We can try plotting the same data from above, but now with bar plots placing side-bys-side for different developers. This one is tricky here. We can just replace `plot()` with `bar()` but it will by default put the bars on top of each other. We want them to be side-by-side. We can specify the width of the bars and tell different bar to either shift left or right of that width value, so that when many bars are plotted then they will be shifted and so we can see them all side-by-side.
@@ -107,10 +108,11 @@ When you value large lists of values to plot in bar, then vertical bars won't be
 
 The final output plot from above code comes out something like this.
 
-<img src="./plot2.png" 
+<p align="center">
+<img src="./images/plot2.png" 
         width="600" 
-        height="400" 
-        style="display: block; margin: 0 auto" />
+        height="400"/>
+    </p>
         
 ## 03. Pie Charts:
 Just like bar charts, pie charts are used to display categorical values, but in proportions unlike bar charts they show total values in each bar. Don't use pie charts if you have more than 5 items to compare, it just makes your charts too crowded, in that case just use bar charts either horizontal or vertical ones.
@@ -146,7 +148,9 @@ plt.show()
 ```
 The final output plot from above code comes out something like this.
 
-![pie chart](./plot3.png)        
+<p align="center">
+    <img src="./images/plot3.png"/>    
+</p>
 
 ## 04. Stack Plots:
 Scene: How much each players/developers worked on the game/project in total minutes/days of 8. Stack plots are good to do comparison between items/people/things over the span of times.
@@ -185,7 +189,9 @@ plt.show()
 
 The final output plot from above code comes out something like this.
 
-![pie chart](./stack_plot.png)
+<p align="center">
+    <img src="./images/stack_plot.png" />
+</p>
 
 ## 05. Histograms:
 Histograms are great to visualize the distribution of data where data falls within certain boundaries. We can divide the range of total boundaries into bins and see how many of those data points falls within bins.
@@ -225,7 +231,9 @@ plt.show()
 
 The final output plot from above code comes out something like this.
 
-![histogram plot](./hist.png)
+<p align="center">
+    <img src="./images/hist.png" />
+</p>
 
 ## 06. Scatter Plots:
 Scatter plots are used to show the relationship between two variables, and see how they are correlated or not. We can also see trends or not, outliers, etc. In this plot below we didn't see any correlations.
@@ -278,7 +286,9 @@ plt.show()
 
 The final output plot from above code comes out something like this.
 
-![scatter plot](./scatter.png)
+<p align="center">
+    <img src="./images/scatter.png" />
+</p>
 
 ## 07. Plotting DateTime `plot_date`:
 Whenever you have datetime object in your dataframe, and you want to make time-series plot then, you can plot using this method.
@@ -340,7 +350,9 @@ plt.show()
 
 The final output plot from above code comes out something like this.
 
-![dateTime](./dateTime.png)
+<p align="center">
+    <img src="./images/dateTime.png" />
+</p>
 
 ## 08. Plotting Live Data in Real-Time:
 Online-Monitoring of the plots as the data comes in regular interval from some database outside is a common task in many places. The dataframe or csv file is constantly being updated as new data comes in and we should monitor the plots based on the updated data.
@@ -500,7 +512,9 @@ ax2.set_ylabel('Median Salary (USD)')
 
 The final output plot from above code doing multiple plots in a same figure object comes out something like this.
 
-![dateTime](./subplots.png)
+<p align="center">
+    <img src="./images/subplots.png" />
+</p>
 
 ## References:
 * [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
