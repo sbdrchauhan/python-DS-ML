@@ -106,6 +106,12 @@ ORDER BY col, ... ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 ```
 
+See image below for more on joins:
+
+<p align="center">
+    <img src="./images/sql_joins.jpeg" alt="sql joins types" width="700" />
+</p>
+
 
 
 
