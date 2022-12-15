@@ -118,6 +118,57 @@ See image below for more on joins:
     <img src="./images/sql_joins.jpeg" alt="sql joins types" width="700" />
 </p>
 
+## Dealing with `NULL`:
+`NULL` values arises in several cases, when we try to outer join two asymmetric tables, for example. We can test whether a column contains any `NULL` values or not using `WHERE` clause together with `IS NULL` or `IS NOT NULL` constraints.
+```sql
+/* Select query with constraints on NULL values */
+SELECT col1, col2, ...
+FROM myTable
+WHERE col1 IS/IS NOT NULL
+AND/OR another_condition
+AND/OR ...;
+```
+
+## Queries with mathematical/logical expressions:
+In addition to doing simple raw column queries, if possible (if values in col permits), we can also add complex mathematical and other logical expressions to make our query even more interesting.
+```sql
+/* see example of this physics db */
+SELECT particle_speed / 2.0 AS half_particle_speed
+FROM physics_table
+WHERE ABS(particle_position) * 10.0 > 500.0;
+```
+
+## Queries with aggregates:
+Aggregates functions are used to summarize the columns or group of rows of data. Its syntax looks like:
+```sql
+/* select query with aggregate functions over all rows */
+SELECT AGG_FUNC(col_or_expr) AS agg_description, ...
+FROM myTable
+WHERE contraint;
+
+/* with grouped aggregate: apply agg func to individual group */
+SELECT AGG_FUNC(col_or_expr) AS agg_description, ...
+FROM myTable
+WHERE constraint
+GROUP BY col;
+```
+Some of the common aggregate functions are:
+
+<p align="center">
+    <img src="./images/agg.png" />
+</p>
+
+When we used `GROUP BY` above, we used it at the end, before `WHERE` clause. Then, how can we further do the filtering after having the grouped rows. We do this by using `HAVING` clause to do filter after group by objects have formed.
+```sql
+/* select query with HAVING constraint */
+SELECT group_by_col, AGG_FUNC(col_expr) AS agg_result_a
+FROM myTable
+WHERE condition(s)
+GROUP BY column
+HAVING group_condition;
+```
+>The constraints/conditions that we can use after `HAVING` clause is similarly written as you would with `WHERE` clause.
+
 
 
 

@@ -8,6 +8,10 @@ pip install --upgrade matplotlib    # to upgrade already installed ones
 ```python
 import matplotlib.pyplot as plt
 import numpy as np    # almost always in need
+
+# to see what are available methods of matplotlib (or any class in python)
+dir(matplotlib)
+dir(matplotlib.pyplot)
 ```
 
 ## Style of the Plot:
