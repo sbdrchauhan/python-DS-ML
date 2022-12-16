@@ -156,7 +156,7 @@ git rebase master     # latest commits of master branch will be the base for thi
                        # for linear one-line log history
 ```
 
-## Important Commands to know:
+## Important Questions one might have:
 ```bash
 ## Whenever you fork other's repo, the repo in your account is called "downstream", and the
 # remote repo is called "upstream".
@@ -173,6 +173,17 @@ git merge upstream/master
 
 ## once you fork, clone your forked repo, make changes, codes, etc. then push the changes to your
 # forked repo, then finally if you want you can start a pull request to suggest the changes
+```
+
+### How to remove all the unwanted files that are committed and you want to unstage them to untrack now on?
+You can tell git to mark them as deleted (without actually deleting them) with:
+```bash
+git rm --cached -r .          # . means all the files
+```
+`--cached` will remove the path of files from staging area without removing files itself. `-r` to do recursively. Once your staging is clean, then the files that you don't want to put into stage area again, then put those files, path, or file types into the `.gitignore` now that if you add, it won't add those into the staging area. Next will be to do:
+```bash
+git add .
+git commit -m "clean staging area"
 ```
 
 Also, see the following Git Cheat Sheet!

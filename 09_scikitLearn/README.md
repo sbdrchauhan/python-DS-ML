@@ -90,7 +90,8 @@ print(score)
 
 # transform X_train & X_test: csv dataset: StandardScaler()
 X_train = sc.fit_transform(X_train)
-X_test = sc.transform(X_test)        # not fit_transform, to not learn from here
+# for test dataset we don't need to do fit, because it already learns those parameters from train
+X_test = sc.transform(X_test)
 
 ## build model & perform methods: csv dataset
 clf = svm.SVC()             # using default paramters
@@ -207,6 +208,23 @@ plt.scatter(kmeans.cluster_centers_[:,0], kmeans.cluster_centers_[:,1], color='b
 ```
 
 ## K-Nearest Neighbors with Scikit-Learn:
+* can be used to solve both **classification** and **regression** problems
+* supervised algorithm, reiles on labeled input data to learn function from and predict on new unlabeled data
+* assumes that nearer things share similar features, and so choose any close *K* number of neighbors' labels to decide which label to pick for the new data
+    * the means of the close neighbors will be used for the regression problems
+    * the mode of the close neighbors will be used for the classification problems
+* KNN best use case will be in places where we need to solve problems that have the solutions that depend on similar attributes. Like in the *recommender systems*, recommending movies, articles, musics, etc.
 ```python
-next time
+# now let's see KNN with scikit-learn
+# do train_test_split, StandardScaler() to normalize data
+from sklearn.neighbors import KNeighborsClassifier
+clf = KNeighborsClassifier(n_neighbors=5)
+clf.fit(X_train, y_train)
+# pred
+y_pred = clf.predict(X_test)
+# evaluation
+from sklearn.metrics import classification_report, confusion_matrix
+
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
 ```

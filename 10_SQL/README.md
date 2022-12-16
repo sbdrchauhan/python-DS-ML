@@ -169,15 +169,36 @@ HAVING group_condition;
 ```
 >The constraints/conditions that we can use after `HAVING` clause is similarly written as you would with `WHERE` clause.
 
+## Order of Execution of a query & a Complete query:
+Let's first see how all the parts of clause fit in, i.e. a complete picture:
+```sql
+/* complete SELECT query */
+SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
+FROM mytable
+    JOIN another_table
+      ON mytable.column = another_table.column
+    WHERE constraint_expression
+    GROUP BY column
+    HAVING constraint_expression
+    ORDER BY column ASC/DESC
+    LIMIT count OFFSET COUNT;
+```
+Each part of the query is executed sequentially. See [sqlbolt](https://sqlbolt.com/lesson/select_queries_order_of_execution) for more details, but in short, the clause order of execution is as follows:
+1. `FROM` and `JOIN` s: to determine the total working set of data
+2. `WHERE`
+3. `GROUP BY`
+4. `HAVING`
+5. `SELECT`
+6. `DISTINCT`
+7. `ORDER BY`
+8. `LIMIT / OFFSET`
 
+## Cheat-Sheet found from web:
+List of some of the basic commands:
 
-
-
-
-
-
-
-
+<p align="center">
+    <img src="./images/sql_basic_commands.jpeg" />
+</p>
 
 ## Resources:
 
