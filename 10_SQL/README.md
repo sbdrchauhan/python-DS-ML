@@ -138,7 +138,7 @@ FROM physics_table
 WHERE ABS(particle_position) * 10.0 > 500.0;
 ```
 
-## Queries with aggregates:
+## Queries with **aggregates**:
 Aggregates functions are used to summarize the columns or group of rows of data. Its syntax looks like:
 ```sql
 /* select query with aggregate functions over all rows */
@@ -169,7 +169,7 @@ HAVING group_condition;
 ```
 >The constraints/conditions that we can use after `HAVING` clause is similarly written as you would with `WHERE` clause.
 
-## Order of Execution of a query & a Complete query:
+## **Order of Execution** of a query & a Complete query:
 Let's first see how all the parts of clause fit in, i.e. a complete picture:
 ```sql
 /* complete SELECT query */
@@ -193,6 +193,87 @@ Each part of the query is executed sequentially. See [sqlbolt](https://sqlbolt.c
 7. `ORDER BY`
 8. `LIMIT / OFFSET`
 
+## How to **Create Tables** to put into the Database?
+We can directly import `.csv` files into the database as a table with the data import wizard found in *mysql workbench*, and I think that will be the most efficient way to import table and put into database, then play your sql queries on them. Nonetheless, we can manually also add tables and so on. Let's see how. We can add tables into DB using `CREATE TABLE` statements.
+```sql
+/* create table */
+CREATE TABLE IF NOT EXISTS myTable (
+    col1 data_type table_constraint DEFAULT default_value,
+    col2 data_type table_constraint DEFAULT default_value,
+    ...
+);
+
+/* example */
+CREATE TABLE movies(
+    id INTEGER PPRIMARY KEY,   /* PRIMARY KEY is a contraint to make values in col unique */
+    title TEXT,
+    director TEXT,
+    year INTEGER,
+    length_minutes INTEGER
+);
+```
+Different DB supports different data types as a table column, but common ones are numeric types (double, float), string, booleans, dates, etc. See below image for more info:
+
+<p align="center">
+    <img src="./images/sql_dtypes.png" />
+</p>
+
+## Inserting, Updating, Deleting Rows in table:
+```sql
+INSERT INTO myTable
+VALUES (value _or_expr, another_value _or_expr, ...),
+       (value _or_expr, another_value _or_expr, ...),
+       ...;
+       
+/* Insert statement with specific columns */
+INSERT INTO mytable
+(column, another_column, …)
+VALUES (value_or_expr, another_value_or_expr, …),
+      (value_or_expr_2, another_value_or_expr_2, …),
+      …;
+      
+/* Example Insert statement with expressions */
+INSERT INTO boxoffice
+(movie_id, rating, sales_in_millions)
+VALUES (1, 9.9, 283742034 / 1000000);
+
+/* Update statement with values */
+UPDATE mytable
+SET column = value_or_expr, 
+    other_column = another_value_or_expr, 
+    …
+WHERE condition;
+
+/* Delete statement with condition */
+DELETE FROM mytable
+WHERE condition;
+```
+
+![tip](./images/sql_tip.png)
+
+## Altering tables:
+With time, the table constraints might change, you need to update tables, or add new columns, or change data types of the columns. You can do those using `ALTER TABLE` statement.
+
+```sql
+/* adding column */
+ALTER TABLE myTable
+ADD col3 data_type;
+
+/* removing column */
+ALTER TABLE myTable
+DROP col3;
+
+/* renaming the table */
+ALTER TABLE myTable
+RENAME TO new_table_name;
+```
+
+## Dropping tables:
+In rare cases, you might have to totally delete table from DB, you can use `DROP TABLE` statement.
+```sql
+DROP TABLE IF EXISTS myTable;
+```
+
 ## Cheat-Sheet found from web:
 List of some of the basic commands:
 
@@ -203,3 +284,4 @@ List of some of the basic commands:
 ## Resources:
 
 * [SQLBolt](https://sqlbolt.com/)
+* [MySQL Docs](https://dev.mysql.com/doc/)
