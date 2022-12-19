@@ -312,6 +312,39 @@ Some of the common aggregate functions are:
     <img src="./images/agg.png" />
 </p>
 
+More built-in aggregate functions to play:
+```sql
+/* Round up to a nearest integer */
+SELECT ROUND(160.352323);
+
+/* Round number up */
+SELECT Ceil(16.3);
+
+/* Round number down */
+SELECT floor(16.8);
+
+/* Get absolute value */
+SELECT ABS(-6);
+
+/* Get square root of a number */
+SELECT SQRT(16);
+
+/* Count number of characters in the string */
+SELECT LENGTH('any_string');
+
+/* convert to upper */
+SELECT UPPER('any_string');
+
+/* convert to lower case */
+SELECT LOWER('any_STRING');
+
+/* Get a substring */
+SELECT SUBSTRING('any_string', 3)
+
+/* replace a string */
+SELECT REPLACE('main_string', 'to_be_replace_string', 'replace_string')
+```
+
 When we used `GROUP BY` above, we used it at the end, before `WHERE` clause. Then, how can we further do the filtering after having the grouped rows. We do this by using `HAVING` clause to do filter after group by objects have formed.
 ```sql
 /* select query with HAVING constraint */
@@ -481,6 +514,14 @@ INSERT INTO test ( b, c ) VALUES ( 'one', 'two' ); /* error, a can't be NULL */
 INSERT INTO test ( a, c ) VALUES ( 1, 'two' ); /* error, b can't be NULL */
 INSERT INTO test ( a, b ) VALUES ( 1, 'two' ); /* this is fine, c can be NULL */
 DROP TABLE IF EXISTS test; /* finally, deleting the test table */
+
+/* To retrive all the rows with a missing value */
+SELECT col1, col2 FROM myTable
+WHERE col1 IS NULL;
+
+/* to replace NULL with a value */
+SELECT col1, COALESCE(col1, 'value_to_put')
+FROM myTable;
 ```
 
 ## Altering tables:
