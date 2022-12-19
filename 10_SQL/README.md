@@ -12,6 +12,12 @@ Tools to Write SQL
 
 A table in SQL is a type of entity (i.e. Dogs), and each row in that table as a specific *instance* of that type (i.e. A pug, a beagle, a different colored pug, etc.). This means that the columns would then represent the common properties shared by all instances of that entity (i.e. Color of fur, length of tail, etc.)
 
+## Create Database:
+```sql
+CREATE DATABASE name;    /* this command creates database */
+USE name;                /* USE activates the database */
+```
+
 ## `SELECT` queries:
 `SELECT` is used to retrieve data from SQL database, and it is also colloquially called as *queries*. Queries contains mainly -> what data we are looking for, where to find it in the database, and optionally transform it before returning.
 ```sql
@@ -24,7 +30,7 @@ SELECT *
 FROM myTable;
 ```
 
-## Queries with Constraints `WHERE` clause:
+## Queries with Constraints `WHERE` clause, `LIKE`, and `IN`:
 The `WHERE` clause is applied to each row of data by checking specific column values to determine whether it should be included in the results or not.
 ```sql
 /* Select query with constraints */
@@ -38,6 +44,35 @@ WHERE condition
 SELECT *
 FROM myTable
 WHERE col2='value';
+
+/* using IN (same as above) */
+SELECT *
+FROM myTable
+WHERE col2 IN ('value');
+
+SELECT *
+FROM myTable
+WHERE col2 NOT IN ('value'); /* everything other that one value from col2 */
+
+/* real examples */
+SELECT * FROM Country;
+SELECT Name, Continent, Population FROM Country 
+  WHERE Population < 100000 ORDER BY Population DESC;
+  
+SELECT Name, Continent, Population FROM Country 
+  WHERE Population < 100000 OR Population IS NULL ORDER BY Population DESC;
+  
+SELECT Name, Continent, Population FROM Country 
+  WHERE Population < 100000 AND Continent = 'Oceania' ORDER BY Population DESC;
+  
+/* % wild card anything before and after is okay */
+/* _a% first letter can be anything, second a and anything after */
+SELECT Name, Continent, Population FROM Country 
+  WHERE Name LIKE '%island%' ORDER BY Name;
+  
+/* same like .isin() in python */
+SELECT Name, Continent, Population FROM Country 
+ WHERE Continent IN ( 'Europe', 'Asia' ) ORDER BY Name;
 ```
 Some more complex queries can be made by combining several of ANDs and ORs as shown below:
 
@@ -53,6 +88,28 @@ When doing `WHERE` clauses with the columns containing text data, we have severa
 </p>
 
 
+## Conditional expressions when querying:
+Sometimes we want to query if a col value is one thing or another, and do something based on conditions. Just like if else statements in python.
+```sql
+CREATE TABLE booltest (a INTEGER, b INTEGER);
+INSERT INTO booltest VALUES (1, 0);
+SELECT * FROM booltest;
+
+/* testing if a ,b is either True of False and asking to print corresponding string */
+SELECT
+    CASE WHEN a THEN 'true' ELSE 'false' END as boolA,
+    CASE WHEN b THEN 'true' ELSE 'false' END as boolB
+    FROM booltest
+;
+
+/* testing if a, b is specific values or not */
+SELECT
+  CASE a WHEN 1 THEN 'true' ELSE 'false' END AS boolA,
+  CASE b WHEN 1 THEN 'true' ELSE 'false' END AS boolB 
+  FROM booltest
+;
+```
+
 ## Filtering and Sorting Query Results:
 `DISTINCT` keyword will discard rows that have a duplicate column value.
 ```sql
@@ -61,6 +118,12 @@ specific columns then we need to use GROUP BY clause */
 SELECT DISTINCT col1, col2
 FROM myTable
 WHERE condition(s);
+
+/* examples */
+SELECT Continent FROM Country;
+SELECT DISTINCT Continent FROM Country; /* finds all distinct values in Continent col */
+
+SELECT DISTINCT a,b FROM test; /* shows distinct combinations of a & b col values */
 ```
 
 ### Ordering results with `ORDER BY`:
@@ -69,6 +132,15 @@ SELECT col1, col2
 FROM myTable
 WHERE condition(s)
 ORDER BY col1 ASC/DESC;
+
+/* examples */
+SELECT Name FROM Country;
+SELECT Name FROM Country ORDER BY Name;
+SELECT Name FROM Country ORDER BY Name DESC;
+SELECT Name FROM Country ORDER BY Name ASC;
+SELECT Name, Continent FROM Country ORDER BY Continent, Name; /* first order by Continent, then Name */
+/* here, we order DESC by Continent, then Region, Name ASC (by default) */
+SELECT Name, Continent, Region FROM Country ORDER BY Continent DESC, Region, Name;
 ```
 When an `ORDER BY` clause is specified, each row is sorted alpha-numerically based on the specified column's value.
 
@@ -80,6 +152,13 @@ FROM myTable
 WHERE condition(s)
 ORDER BY col1 ASC/DESC
 LIMIT num_limit OFFSET num_offset;
+```
+
+## Counting rows:
+Instead of listing the output/result of the query as tables, which is what we mostly want to do anyway, we can also `COUNT` the rows/instances of our queries:
+```sql
+SELECT COUNT(*) FROM myTable;       /* counts total rows in myTable */
+SELECT COUNT(*) FROM Country WHERE Population > 100000000 AND Continent = 'Europe'; /* count with conditions */
 ```
 
 ## Multi-table queries with `JOINS`:
@@ -97,6 +176,47 @@ INNER JOIN anotherTable
 WHERE condition(s)
 ORDER BY col, ... ASC/DESC
 LIMIT num_limit OFFSET num_offset;
+
+/* examples */
+/* l,r are an alias we can define later in second line */
+SELECT l.description AS left, r.description AS right /* since both col same name, so we give alias */
+  FROM left AS l
+  JOIN right AS r ON l.id = r.id;
+  
+SELECT s.id AS sale, i.name, s.price 
+  FROM sale AS s
+  JOIN item AS i ON s.item_id = i.id
+  ;
+
+SELECT s.id AS sale, s.date, i.name, i.description, s.price 
+  FROM sale AS s
+  JOIN item AS i ON s.item_id = i.id
+  ;
+  
+/* sometimes, we need to query data from more than 2 tables */
+/* let's say we have 3 tables, Junction Table */
+SELECT * FROM customer;
+SELECT * FROM item;
+SELECT * FROM sale;
+
+SELECT c.name AS Cust, c.zip, i.name AS Item, i.description, s.quantity AS Quan, s.price AS Price
+  FROM sale AS s
+  JOIN item AS i ON s.item_id = i.id
+  JOIN customer AS c ON s.customer_id = c.id
+  ORDER BY Cust, Item
+;
+
+-- a customer without sales
+INSERT INTO customer ( name ) VALUES ( 'Jane Smith' );
+SELECT * FROM customer;
+
+-- left joins
+SELECT c.name AS Cust, c.zip, i.name AS Item, i.description, s.quantity AS Quan, s.price AS Price
+  FROM customer AS c
+  LEFT JOIN sale AS s ON s.customer_id = c.id
+  LEFT JOIN item AS i ON s.item_id = i.id
+  ORDER BY Cust, Item
+;
 ```
 
 ### OUTER JOINS:
@@ -197,13 +317,23 @@ Each part of the query is executed sequentially. See [sqlbolt](https://sqlbolt.c
 We can directly import `.csv` files into the database as a table with the data import wizard found in *mysql workbench*, and I think that will be the most efficient way to import table and put into database, then play your sql queries on them. Nonetheless, we can manually also add tables and so on. Let's see how. We can add tables into DB using `CREATE TABLE` statements.
 ```sql
 /* create table */
+/* default will let the col to take defualt value if not provided. */
 CREATE TABLE IF NOT EXISTS myTable (
     col1 data_type table_constraint DEFAULT default_value,
     col2 data_type table_constraint DEFAULT default_value,
     ...
 );
 
-/* example */
+/* create table col with some constraints */
+CREATE TABLE test ( a TEXT, b TEXT, c TEXT NOT NULL ); /* ensures col c is not NULL */
+CREATE TABLE test ( a TEXT, b TEXT, c TEXT DEFAULT 'panda' ); /* takes default value if not provided later */
+CREATE TABLE test ( a TEXT UNIQUE, b TEXT, c TEXT DEFAULT 'panda' ); /* UNIQUE don't allow duplicates */
+CREATE TABLE test ( a TEXT UNIQUE NOT NULL, b TEXT, c TEXT DEFAULT 'panda' );
+
+/* more examples */
+/* PRIMARY KEY automatically creates id (starts from 1) for all rows */
+/* a table can only have PRIMARY KEY col , works in sqlite3 system */
+/* id col will populate itself, just add values for other col */
 CREATE TABLE movies(
     id INTEGER PPRIMARY KEY,   /* PRIMARY KEY is a contraint to make values in col unique */
     title TEXT,
@@ -211,6 +341,17 @@ CREATE TABLE movies(
     year INTEGER,
     length_minutes INTEGER
 );
+
+/* create and fill table */
+CREATE TABLE test (
+  a INTEGER,
+  b TEXT
+);
+
+INSERT INTO test VALUES ( 1, 'a' );
+INSERT INTO test VALUES ( 2, 'b' );
+INSERT INTO test VALUES ( 3, 'c' );
+SELECT * FROM test;
 ```
 Different DB supports different data types as a table column, but common ones are numeric types (double, float), string, booleans, dates, etc. See below image for more info:
 
@@ -221,35 +362,92 @@ Different DB supports different data types as a table column, but common ones ar
 ## Inserting, Updating, Deleting Rows in table:
 ```sql
 INSERT INTO myTable
-VALUES (value _or_expr, another_value _or_expr, ...),
+  VALUES (value _or_expr, another_value _or_expr, ...),
        (value _or_expr, another_value _or_expr, ...),
        ...;
        
 /* Insert statement with specific columns */
-INSERT INTO mytable
-(column, another_column, …)
-VALUES (value_or_expr, another_value_or_expr, …),
-      (value_or_expr_2, another_value_or_expr_2, …),
+INSERT INTO mytable (column, another_column, …)
+  VALUES (value_or_expr, another_value_or_expr, …),
+       (value_or_expr_2, another_value_or_expr_2, …),
       …;
       
 /* Example Insert statement with expressions */
-INSERT INTO boxoffice
-(movie_id, rating, sales_in_millions)
-VALUES (1, 9.9, 283742034 / 1000000);
+INSERT INTO boxoffice (movie_id, rating, sales_in_millions)
+  VALUES (1, 9.9, 283742034 / 1000000);
 
+INSERT INTO customer (name, address, city, state, zip) 
+  VALUES ('Fred Flintstone', '123 Cobblestone Way', 'Bedrock', 'CA', '91234');
+  
+/* if we only insert on few columns of a row, then we get NULL on rest col */
+INSERT INTO customer (name, city, state) 
+  VALUES ('Jimi Hendrix', 'Renton', 'WA');
+  
+/* more insert into examples */
+INSERT INTO test VALUES ( 1, 'This', 'Right here!' ); 
+INSERT INTO test ( b, c ) VALUES ( 'That', 'Over there!' ); /* only inserting into certain cols */ 
+INSERT INTO test DEFAULT VALUES; /* all the values for this row will be NULL */
+INSERT INTO test ( a, b, c ) SELECT id, name, description from Item_table; /* using select of another table */
+
+/* =============================== */
 /* Update statement with values */
 UPDATE mytable
-SET column = value_or_expr, 
+  SET column = value_or_expr, 
     other_column = another_value_or_expr, 
     …
-WHERE condition;
+  WHERE condition;
+  
+/* update table/row example */
+UPDATE customer SET address = '123 Music Avenue', zip = '98056' WHERE id = 5; /* id col to specify row */
+UPDATE customer SET address = '2603 S Washington St', zip = '98056' WHERE id = 5; /* change again */
+UPDATE customer SET address = NULL, zip = NULL WHERE id = 5; /* finally make NULL back to it */
 
+/* ================================ */
 /* Delete statement with condition */
 DELETE FROM mytable
-WHERE condition;
+  WHERE condition;
+  
+/* first select and see if what you see is what you want to delete */
+SELECT * FROM customer WHERE id = 4;
+DELETE FROM customer WHERE id = 4;
+
+SELECT * FROM customer; /* to see that row is deleted */
 ```
 
 ![tip](./images/sql_tip.png)
+
+## The `NULL` value:
+`NULL` is special in that it lacks the value, it is a state where there is no value not even empty string, zero. Below we will see how `NULL` behaves in different situations:
+```sql
+/* first see the test table */
+SELECT * FROM test;
+/* because NULL is absence of value */
+SELECT * FROM test WHERE a = NULL;    /* throws an error */
+SELECT * FROM test WHERE a IS NULL;   /* this is how we can check for NULL */
+SELECT * FROM test WHERE a IS NOT NULL;
+INSERT INTO test ( a, b, c ) VALUES ( 0, NULL, '' ); /* this is okay, you can add NULL */
+SELECT * FROM test WHERE b IS NULL;
+SELECT * FROM test WHERE b = ''; /* error */
+SELECT * FROM test WHERE c = '';
+SELECT * FROM test WHERE c IS NULL; /* error */
+
+DROP TABLE IF EXISTS test; /* delete above table */
+
+/* create table with constraints that a,b col can't be NULL */
+CREATE TABLE test (
+  a INTEGER NOT NULL,
+  b TEXT NOT NULL,
+  c TEXT
+);
+
+INSERT INTO test VALUES ( 1, 'this', 'that' ); /* this passes */
+SELECT * FROM test;
+
+INSERT INTO test ( b, c ) VALUES ( 'one', 'two' ); /* error, a can't be NULL */
+INSERT INTO test ( a, c ) VALUES ( 1, 'two' ); /* error, b can't be NULL */
+INSERT INTO test ( a, b ) VALUES ( 1, 'two' ); /* this is fine, c can be NULL */
+DROP TABLE IF EXISTS test; /* finally, deleting the test table */
+```
 
 ## Altering tables:
 With time, the table constraints might change, you need to update tables, or add new columns, or change data types of the columns. You can do those using `ALTER TABLE` statement.
@@ -268,10 +466,13 @@ ALTER TABLE myTable
 RENAME TO new_table_name;
 ```
 
-## Dropping tables:
+## Delete / Dropping tables:
 In rare cases, you might have to totally delete table from DB, you can use `DROP TABLE` statement.
 ```sql
 DROP TABLE IF EXISTS myTable;
+
+DROP TABLE test;
+DROP TABLE IF EXISTS test;
 ```
 
 ## Cheat-Sheet found from web:
@@ -285,3 +486,4 @@ List of some of the basic commands:
 
 * [SQLBolt](https://sqlbolt.com/)
 * [MySQL Docs](https://dev.mysql.com/doc/)
+* [SQL Essential Training (LinkedIn)](https://www.linkedin.com/learning/sql-essential-training-3)
