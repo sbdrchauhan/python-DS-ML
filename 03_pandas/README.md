@@ -31,6 +31,7 @@ print(df)
 ```
 
 ## Create Pandas Series from python list:
+A Series is a one-dimensional array of indexed data.
 ```python
 import pandas as pd
 
@@ -55,6 +56,7 @@ print(pandas_series)
 ```python
 import pandas as pd                        # standard to use pd alias
 import numpy as np                         # guaranteed to be needed
+pd.show_versions()                         # shows versions of dependencies of pandas
 pd.set_option('display.max_columns',85)    # to see 85 columns
 pd.set_option('display.max_columns', None) # to display all colns (whatever)
 pd.set_option('display.max_rows',85)       # to see 85 rows
@@ -85,7 +87,7 @@ df.shape       # shows the (rows,columns) numbers in tuple form
 df.columns     # gives list of all columns names
 df.columns.tolist()    # get the col names and make a list
 df.index       # to see the names of index
-df.info()      # shows more info, including dtypes of each column
+df.info()      # shows more info, including dtypes of each column, non-null rows
 df.info(verbose=True, show_counts=True)  # to make sure Non-Null cols show up
 df.describe()  # quick statistical overview of numerical cols
 df['categorical_col'].describe()   # to see describe works for Obj col
@@ -144,14 +146,22 @@ df.loc[['row1','row4'],['col1','col6']]   # return specified rows & cols
 
 >Data preparation accounts for [about 80\% of the work](https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task-survey-says/?sh=532dd6346f63) of a Data Scientist.
 
-## methods for a single column
+## methods for a single column (Basic Analysis):
 ```python
+# default setting of value counts
+# if your df has significant amounts of Null values, then you may want to
+# count Null values as well, so setting dropna=False
+df['col'].value_counts(normalize=False, sort=True, ascending=False,
+                      bins=None, dropna=True)
+
 df['col1'].value_counts(normalize=True)   # counts the number of unique values
                                           # best for categorical data types
 df['col'].unique()                        # returns list of unique values in col
 df['col'].replace('old_value','new_value', inplace=True)
 df['col'].fillna('fill_value', inplace=True)
 ```
+
+>Tips: Check to see each methods of pandas if we can apply to both the Series object and to DataFrame object. Example, `.sort_values()` can be applied to both the Series and DataFrame objects. And, so we can learn more this way if we are aware of these methods and how they function applied into various situations.
 
 >Other related functions:
 
@@ -177,6 +187,9 @@ df.loc[df['col_1']=='some_value', ['col2','col3']] # .loc has little advantages
 df[(df['col_1']=="some_value") & (df['col_3']=="some_other_value")]
 df[(df['col_1']=="some_value") | (df['col_3']=="some_other_value")]
 
+# example 
+df[(df.Medal == 'Gold') & (df.Gender == 'Women')]
+
 ## using loc with multiple filter condition
 df.loc[(df['col_1']=="some_value") & (df['col_3']=="some_other_value"), ['col2','col5']]
 df.loc[(df['col_1']=="some_value") | (df['col_3']=="some_other_value"), ['col2','col5']]
@@ -193,6 +206,17 @@ filt = df['col'].str.contains('Python', na=False)  # if that col value contains 
 df.loc[filt, ['col1', 'col2', 'col3']]
 ```
 **Tips**: If you want all the cases where the filter didn't match you can just put tilde `~` sign infront of the filter.
+
+## String handling:
+* Available to every Series using `str` attribute
+* `Series.str` -> access values of series as strings and apply several methods to it. For example:
+    * Series.str.contains()
+    * Series.str.startswith()
+    * Series.str.isnumeric()
+```python
+# trying to look into Athelete column that contains string 'Florence' anywhere
+oo[oo.Athlete.str.contains('Florence')]
+```
 
 ## modifying/updating df as need
 ```python
@@ -305,6 +329,7 @@ df.nsmallest(10, 'col')   # same deal, now smallest
 
 ## Grouping and Aggregating
 ```python
+# median for single col
 df['col'].median()      # returns median value from col
 
 ## median by country -- group
@@ -342,6 +367,11 @@ The groupby object is like a dictionary where keys are the unique groups and val
 
 The number of groups should be equal to the number of unique values that you called `groupby` on.
 ```python
+# We can iterate through groupby object:
+for group_key, group_value in oo.groupby('Edition'):
+    print(group_key)
+    print(group_value)
+
 df_group = df.groupby("categorical_col")
 type(df_group)
 >>> pandas.core.groupby.generic.DataFrameGroupBy
@@ -377,6 +407,13 @@ df.groupby('categorical_col')[['col1','col2']].mean()
 # applying multiple agg func on same column
 df.groupby('cat_col')[['col1']].aggregate([min, max, sum, 'mean'])  
 # this will give statistics about col in each group
+
+# first groupby multiple cols, and for the remaining cols, find 
+# min, max, count aggregates
+oo.groupby(['Edition','NOC','Medal']).agg(['min','max','count'])
+
+# only one col: Edition gets the aggreagte to be applied
+oo.groupby(['Edition','NOC','Medal']).agg({'Edition' :['min','max','count']})
 
 ## apply multiple columns different func
 df.groupby('cat_col').aggregate({'col1':'count', 'col2':'mean'})
@@ -597,7 +634,8 @@ url_df = pd.read_csv("url_website")
 * [Comprehensive data exploration with Python](https://www.kaggle.com/code/pmarcelino/comprehensive-data-exploration-with-python/notebook)
 * [Comprehensive Data Analysis with Pandas](https://www.kaggle.com/code/prashant111/comprehensive-data-analysis-with-pandas/notebook)
 * [Data Cleaning](https://www.kaggle.com/learn/data-cleaning)
-* [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+* [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/).
+* [Pandas Essential Training (LinkedIn)](https://www.linkedin.com/learning/pandas-essential-training/)
 
 
 
