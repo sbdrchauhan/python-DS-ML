@@ -88,7 +88,7 @@ The final output plot from above code comes out something like this.
         </p>
 
 ## 02. Bar Charts:
-We can try plotting the same data from above, but now with bar plots placing side-bys-side for different developers. This one is tricky here. We can just replace `plot()` with `bar()` but it will by default put the bars on top of each other. We want them to be side-by-side. We can specify the width of the bars and tell different bar to either shift left or right of that width value, so that when many bars are plotted then they will be shifted and so we can see them all side-by-side.
+We can try plotting the same data from above, but now with bar plots placing side-bys-side for different developers. This one is tricky here. We can just replace `plot()` with `bar()` but it will by default put the bars on top of each other. We want them to be side-by-side. We can specify the width of the bars and tell different bar to either shift left or right of that width value, so that when many bars are plotted then they will be shifted and so we can see them all side-by-side. Bar Charts are excellent when you are showing segments of information
 ```python
 # need to use numpy array for x values, but similar length as previous
 # indexes was needed to make the offsets work
@@ -106,7 +106,11 @@ plt.bar(x_indexes, y2_values, width=width, color='b', label='Python')
 # to make xticks, this will fix to true x values shown
 plt.xticks(ticks=x_indexes, labels=dev_age)
 
-# same with most of other stuffs (as above)
+#-------------------------------------------------
+# another example (no need of shifting bars here):
+teamColors = ['#034694', '#...', ...] # list all the colors you want for each team
+# 20 teams on x-axis
+plt.bar(x=np.arange(1,21), height=table['Points'], color=teamColors) # shows nice separate color for each team
 ```
 When you value large lists of values to plot in bar, then vertical bars won't be good, also because the labels in x axis won't have enough room to display as well So, in these scenarios if you need to make the bar plots, then make it **horizontal bar plots**. You just need `barh()` instead of `bar`; and adjust the labels as well. *Read docs for more*.
 
@@ -518,6 +522,25 @@ The final output plot from above code doing multiple plots in a same figure obje
 
 <p align="center">
     <img src="./images/subplots.png" />
+</p>
+
+## Box Plots & Violin Plots:
+When we need to compare numerical variables and they are grouped by categorical variables, we need to use Box Plots or Violin Plots that will show numerical summaries for each group of category. The box plots shows the outliers in the data and they are visaualized separately for each group. Box plots don't show the density of the values in Y-axis, and so we have the violin plots to also show density id addition to the Box plots. The density is mirrored and flipped over, and the resulting shape is filled in, and so looks like the violin. Violin plots lets us see the density of data nicely, however, it will not show outliers
+```python
+# 'Position' col of df has values like Defender, Forward, GK, Midfield
+# here we can see each box plot is for each value of 'Position' column
+# and that each boxplot shows summaries of skills if we do .describe()
+df.boxplot(by='Position', column='skill', grid=False)
+
+sns.violinplot(data=df, x='Position', y='skill')
+```
+
+<p align="center">
+    <img src="./images/box_plot.png" />
+</p>
+
+<p align="center">
+    <img src="./images/violin_plot.png" />
 </p>
 
 ## References:
