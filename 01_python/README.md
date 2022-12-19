@@ -1,5 +1,40 @@
 # python notes:
 
+## Resources:
+* [Python Essential Training](https://www.linkedin.com/learning/python-essential-training-14898805)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Some useful python functions to know:
 <hr>
 
