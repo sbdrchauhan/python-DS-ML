@@ -1,6 +1,7 @@
 # Structured Query Language SQL:
 Talks with the databases like:
-* SQL Server
+* Microsoft SQL Server
+* PostgreSQL
 * Oracle
 * MySQL, etc.
 
@@ -9,6 +10,9 @@ Tools to Write SQL
 * SQL Workbench
 * SQL developer
 * TOAD, etc.
+* Online tool to practice: [phpMyAdmin](https://www.phpmyadmin.net/)
+
+> :bulb: **Caution**: Every database system has their own way to writing many of the syntax/queries that we see below. Only few syntax are standard, in that they are written same way in all platforms. So, you are always advised to look into the official documentation for each of the platforms (i.e. postgres, mysql, sqlite, microsoft sql, etc.) to know the specific syntax. Having said that, however, all the platforms do support the following functionality, and it's just syntax varies. Once you know certain functionality exist, it is however, very easy to look for in internet.
 
 A table in SQL is a type of entity (i.e. Dogs), and each row in that table as a specific *instance* of that type (i.e. A pug, a beagle, a different colored pug, etc.). This means that the columns would then represent the common properties shared by all instances of that entity (i.e. Color of fur, length of tail, etc.)
 
@@ -271,6 +275,36 @@ SELECT AGG_FUNC(col_or_expr) AS agg_description, ...
 FROM myTable
 WHERE constraint
 GROUP BY col;
+
+/* real examples */
+/* using COUNT to count all rows in Country table */
+SELECT COUNT(*) FROM Country;
+
+/* first groupby and then count */
+SELECT Region, COUNT(*) AS Count
+  FROM Country
+  GROUP BY Region
+  ORDER BY Count DESC, Region
+;
+
+SELECT a.title AS Album, COUNT(t.track_number) as Tracks
+  FROM track AS t
+  JOIN album AS a
+    ON a.id = t.album_id
+  GROUP BY a.id
+  ORDER BY Tracks DESC, Album
+;
+
+SELECT COUNT(*) FROM Country;
+SELECT COUNT(Population) FROM Country;
+SELECT AVG(Population) FROM Country;
+SELECT Region, AVG(Population) FROM Country GROUP BY Region;
+SELECT Region, MIN(Population), MAX(Population) FROM Country GROUP BY Region;
+SELECT Region, SUM(Population) FROM Country GROUP BY Region;
+
+SELECT COUNT(HeadOfState) FROM Country;
+SELECT HeadOfState FROM Country ORDER BY HeadOfState;
+SELECT COUNT(DISTINCT HeadOfState) FROM Country; /* removing duplicates in col, then count */
 ```
 Some of the common aggregate functions are:
 
@@ -473,6 +507,76 @@ DROP TABLE IF EXISTS myTable;
 
 DROP TABLE test;
 DROP TABLE IF EXISTS test;
+```
+
+## Finding length of string:
+There is no standard implementation to find the length of the string, but here shown that works for sqlite.
+```sql
+SELECT LENGTH('string');
+
+/* find length of name and order by length of name */
+SELECT Name, LENGTH(Name) AS Len FROM City ORDER BY Len DESC;
+```
+
+## Selecting part of a String:
+```sql
+SELECT SUBSTR('this string', 6); /* starts from 6 pos, returns string */
+SELECT SUBSTR('this string', 6, 3); /* returns str */
+SELECT released, /* released data looks like this -> 1974-04-22 */
+    SUBSTR(released, 1, 4) AS year, /* position 1 and 4 characters, and so on */
+    SUBSTR(released, 6, 2) AS month,
+    SUBSTR(released, 9, 2) AS day
+  FROM album
+  ORDER BY released
+;
+```
+
+## Removing spaces from strings:
+```sql
+SELECT TRIM('   string   ');       /* removes spaces from both sides */
+SELECT LTRIM('   string   ');      /* removes from left side */
+SELECT RTRIM('   string   ');      /* removes from right side */
+SELECT TRIM('...string...', '.');  /* removes specified character both sides */
+```
+
+## lower and upper case for strings:
+```sql
+SELECT 'StRiNg' = 'string'; /* not the same, so false */
+SELECT LOWER('StRiNg') = LOWER('string'); /* now same */
+SELECT UPPER('StRiNg') = UPPER('string'); /* true */
+SELECT UPPER(Name) FROM City ORDER BY Name;
+SELECT LOWER(Name) FROM City ORDER BY Name;
+```
+
+## Integer, real numeric types:
+```sql
+SELECT TYPEOF( 1 + 1 ); /* integer */
+SELECT TYPEOF( 1 + 1.0 ); /* real */
+SELECT TYPEOF('panda'); /* text */
+SELECT TYPEOF('panda' + 'koala'); /* integer (in sqlite) */
+
+SELECT 1 / 2; /* integer division, returns 0 */
+SELECT 1.0 / 2;
+SELECT CAST(1 AS REAL) / 2;
+SELECT 17 / 5;
+SELECT 17 / 5, 17 % 5; /* modulo gives remainder */
+
+SELECT 2.55555;
+SELECT ROUND(2.55555); /* round up to 3 */
+SELECT ROUND(2.55555, 3); /* round up to 3 digit, 2.556 */
+SELECT ROUND(2.55555, 0); /* still 3 */
+```
+
+## Dates and Times:
+```sql
+SELECT DATETIME('now');
+SELECT DATE('now');
+SELECT TIME('now');
+SELECT DATETIME('now', '+1 day');
+SELECT DATETIME('now', '+3 days');
+SELECT DATETIME('now', '-1 month');
+SELECT DATETIME('now', '+1 year');
+SELECT DATETIME('now', '+3 hours', '+27 minutes', '-1 day', '+3 years');
 ```
 
 ## Cheat-Sheet found from web:
