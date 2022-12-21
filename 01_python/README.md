@@ -3,27 +3,58 @@
 ## Resources:
 * [Python Essential Training](https://www.linkedin.com/learning/python-essential-training-14898805)
 
+## What is Python?
+[source:](https://twitter.com/DanKornas/status/1587332107516317697)
+<p align="center">
+    <img src="./images/what_is_python.png" />
+</p>
 
+<p align="center">
+    <img src="./images/python_data_types.png" />
+</p>
 
+## Python Operators
+```python
+# Arithmetic Operators:
+2 + 3     # Addition
+4 - 2     # subtraction
+4 * 2     # multiply
+4 / 2     # float div
+4 // 3    # floor/int div: returns 1
 
+# Comparison Operators:
+2 > 3     # greater than
+2 < 3     # less than
+2 >= 3    # greater than or equal to
+2 <= 3    # less than or equal to
+2 != 3    # not equal to
+2 == 3    # equal to
 
+# Logical Operators:
+x = True
+y = False
+x and y   # False
+x or y    # True
+not x     # False
+not y     # True
 
+# Bitwise operators: Need to learn about it more
 
+# Membership Operators:
+# used to check something in another thing using: 'in'
+x = 'Python Course'
+y in x         # returns True
+a in x         # returns False
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Identity Operators:
+# To check if two things are identical or not using: 'is' and 'is not'
+x=5
+y=5
+z='a'
+x is y          # True
+y is not z      # True
+x is z          # False
+```
 
 
 
