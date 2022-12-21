@@ -14,6 +14,11 @@ git config --global user.email "your_email@email.com"       # this email will be
 git config --global user.name                               # should show you your username that has set
 git config --global user.email                              # shows your email that has set
 
+# to see how Git is configured:
+git config --list --system
+git config --list --global
+git config --list --local
+
 ## to change your main branch name to "main" (if default, master)
 git branch -M main
 ```
@@ -37,6 +42,9 @@ git add .            # adds all the files that has changes, newly added (if not 
                      
 git add file_name    # or you can specify which file(s) you want git to track for you.
 
+# if you didn't intend to add this file:
+git reset HEAD      # to go to the previous commit state
+
 git rm --cached <file>    # to unstage the file if git has been tracking them
                           # you can then add them into your .gitignore file to permanently untrack them
 
@@ -48,11 +56,18 @@ git commit -m "meaningful_message"
 # has been added, then, you have a shortcut to add and commit in one-line
 git commit -am "message_to_commit"      # notice -am option that does the trick
 
+# if you accidently mistyped a commit message, you can change the last commit using the `--amend` flag
+git commit --amend -m "new message"
+
 # how to see what history of commits we have
 git log
 
 # how to see more info about any of the commits?
 git show <commit_id/hash_id>
+
+# to see what changed between two commits? compare two hash
+git diff ID1..ID2         # note double .. is needed
+git diff HEAD~1..HEAD~3   # HEAD points to the last commit
 
 # how to list all the files currently git is tracking in the repository?
 git ls-files
