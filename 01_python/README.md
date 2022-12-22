@@ -56,7 +56,55 @@ y is not z      # True
 x is z          # False
 ```
 
+## Python Classes and Objects
 
+<p align="center">
+    <img src="./images/classes.png" />
+</p>
+
+```python
+# create a class
+class Person:
+    def __init__(self, n, a):
+        self.name = n
+        self.age = a
+        
+    def myfunc(self):
+        print("Hello my name is " + \
+             self.name)
+
+# create an instance of the class
+p1 = Person('Shyam',32)
+
+print(p1.name)  # returns Shyam
+print(p1.age)   # returns 32
+
+# calling the method of the class
+p1.myfunc()     # returns, Hello may name is Shyam
+```
+**Inheritence** allows us to create a class that inherits all of another class's methods and properties. The class being inherited from is known as the parent class, sometimes we call them base class. A child class is one that inherits from another class, known as a derived class.
+```python
+# create a parent class
+class Person:
+    def __init__(self, n, a):
+        self.name = n
+        self.age = a
+        
+    def myfunc(self):
+        print("Hello my name is " + \
+             self.name)
+        
+# create a child class
+class Student(Person):  # Parent class as a parameter
+    def __init__(self, fname, lname):
+        super().__init__(fname, lname)  # inherits all from Parent
+        self. graduationYear = 2019     # adding more to init than Parent had
+        self.firstname = fname
+        self.lastname = lname
+    
+    def welcome(self):
+        print("Welcome " + self.firstname + self.lastname + " to the class of " + str(self.graduationYear))
+```
 
 
 

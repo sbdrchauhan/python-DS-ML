@@ -94,6 +94,9 @@ df['categorical_col'].describe()   # to see describe works for Obj col
 df.to_string() # render a df to a console-freindly tabular output
 df.values      # gives us data only w/o index and cols, like numpy matrix
 
+# to find the correlation quickly
+df.corr()     # to find pairwise correlation betw all columns
+
 # copying df, and then working on copy
 df_copy = df.copy()
 ```
@@ -433,6 +436,12 @@ df.columns[df.isnull().any()].to_list()
 # Forward fill is the default approach for interpolate
 df_cal["maximum_nights"] = df_cal["maximum_nights"].interpolate()
 
+# to remove duplicates rows
+df.drop_duplicates()
+
+# to remove duplicates specifying cols
+df.drop_duplicates(['col1', 'col2'])
+
 ## if we just want to remove missing value
 df.dropna(axis='index', how='any')   # default arguments; it removes np.nan, None
 
@@ -626,6 +635,18 @@ json_df = pd.read_json('new_name.json')
 # from url
 url_df = pd.read_csv("url_website")
 ```
+
+## Pandas Cheatsheet from the Web
+
+<p align="center">
+    <img src="./images/pd_cheat1.jpeg" />
+</p>
+
+<hr>
+
+<p align="center">
+    <img src="./images/pd_cheat2.jpeg" />
+</p>
 
 ## Resources:
 
