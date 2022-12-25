@@ -1,11 +1,14 @@
 # Structured Query Language SQL:
-Talks with the databases like:
+It is also pronounced as "SEQUEL". It talks with the relational databases like:
 * Microsoft SQL Server
 * PostgreSQL
 * Oracle
+* SQLite
 * MySQL, etc.
 
-Tools to Write SQL
+It can read data from the RDBMS (relation database) or write data into database. SQL can also create,delete modify database. In RDMS system, different tables can talk to each other relating them together using the common column values present in two table, for example.
+
+Some of the tools to Write and practice SQL:
 * SQL Server Management Studio
 * SQL Workbench
 * SQL developer
@@ -13,6 +16,18 @@ Tools to Write SQL
 * Online tool to practice: [phpMyAdmin](https://www.phpmyadmin.net/)
 
 > :bulb: **Caution**: Every database system has their own way to writing many of the syntax/queries that we see below. Only few syntax are standard, in that they are written same way in all platforms. So, you are always advised to look into the official documentation for each of the platforms (i.e. postgres, mysql, sqlite, microsoft sql, etc.) to know the specific syntax. Having said that, however, all the platforms do support the following functionality, and it's just syntax varies. Once you know certain functionality exist, it is however, very easy to look for in internet.
+
+SQL commands, overall can be categorized into **5 types**. See below for the image:
+
+<p align="center">
+    <img src="./images/sql_commands.png" alt="sql joins types" width="700" />
+</p>
+
+**Constraints on data types**: When putting the data into table, we can constraints the data types and the values they can store in the column of a table. By doing this, our table will contain much cleaner data in them. Let's look at some of the contraints that we can have for a column of a table in RDMS.
+
+<p align="center">
+    <img src="./images/sql_constraints.png" alt="sql joins types" width="700" />
+</p>
 
 A table in SQL is a type of entity (i.e. Dogs), and each row in that table as a specific *instance* of that type (i.e. A pug, a beagle, a different colored pug, etc.). This means that the columns would then represent the common properties shared by all instances of that entity (i.e. Color of fur, length of tail, etc.)
 
@@ -618,6 +633,11 @@ SELECT DATETIME('now', '+3 days');
 SELECT DATETIME('now', '-1 month');
 SELECT DATETIME('now', '+1 year');
 SELECT DATETIME('now', '+3 hours', '+27 minutes', '-1 day', '+3 years');
+
+/* to get the Year part from the DateTime object */
+/* We can use YEAR() function that takes in DateTime and returns Year part from it */
+SELECT firstName, lastName, Year(BirthDate) AS BirthYear
+FROM myTable;
 ```
 
 ## Cheat-Sheet found from web:
@@ -632,3 +652,7 @@ List of some of the basic commands:
 * [SQLBolt](https://sqlbolt.com/)
 * [MySQL Docs](https://dev.mysql.com/doc/)
 * [SQL Essential Training (LinkedIn)](https://www.linkedin.com/learning/sql-essential-training-3)
+* [SQL Practice](https://www.sql-practice.com/)
+* [TechTFQ Youtube](https://www.youtube.com/c/techTFQ)
+* [DataInterview SQL Pad](https://sql.datainterview.com/)
+* [DataLemur](https://datalemur.com/)

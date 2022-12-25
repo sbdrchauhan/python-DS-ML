@@ -237,3 +237,4 @@ All in all, there is no one-size-fit-all model that will work for all the proble
 ## References:
 * [Dan twitter](https://twitter.com/DanKornas)
 * [Google dev. ml course](https://developers.google.com/machine-learning/)
+* [Machine Learning at Berkeley](https://ml.berkeley.edu/blog/tag/crash-course/)
