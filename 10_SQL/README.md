@@ -127,7 +127,56 @@ SELECT
   CASE b WHEN 1 THEN 'true' ELSE 'false' END AS boolB 
   FROM booltest
 ;
+
+/* case is like if else statements, see example */
+SELECT staff_id, salary,
+CASE WHEN salary >= 10000 THEN 'High Salary'
+    WHEN salary BETWEEN 5000 AND 9999 THEN 'Average Salary'
+    WHEN salary < 5000 THEN 'Too low Salary'
+END AS RANGE
+FROM staff_salary
+ORDER BY 2 DESC;
 ```
+
+## Subqueries in `WHERE` Clause:
+Subqueries are put in the `WHERE` clause, and they are a nested `SELECT` statements and are quite powerful tool to know.
+```sql
+/* IDs and names of students who have applied to major in CS at some college */
+select sID, sName
+from Student
+where sID in (select sID from Apply where major='CS')
+
+/* Students who have applied to major in CS but have not applied to major in EE */
+select sID, sName
+from Student
+where sID in (select sID from Apply where major='CS')
+    and sID not in (select sID from Apply where major='EE')
+```
+
+## Subqueries in `FROM` Clause:
+```sql
+select *
+from (select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA 
+      from student) G
+where abs(G.scaledGPA - GPA) > 1.0;
+```
+
+## Subqueries in `SELECT` Clause:
+```sql
+/* Colleges paired with the highest GPA of their applicants */
+/* the result of subqueries in the select should only return one value at a time  */
+select cName, state,
+(select distinct GPA
+from College, Apply, Student
+where College.cName = Apply.cName
+    and Apply.sID = Student.sID
+    and GPA >= all
+            (select GPA from Student, Apply
+            where Student.sID = Apply.sID
+                and Apply.cName = College.cName)) as GPA
+from college;
+```
+
 
 ## Filtering and Sorting Query Results:
 `DISTINCT` keyword will discard rows that have a duplicate column value.
@@ -250,6 +299,12 @@ WHERE condition(s)
 ORDER BY col, ... ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 ```
+
+Supported Types of Joins in **MySQL**
+* `INNER JOIN`: returns records that have matching values in both tables
+* `LEFT JOIN`: returns all records from the left table, and the matched records from the right table
+* `RIGHT JOIN`: returns all records from the right table, and the matched records from the left table
+* `CROSS JOIN`: this is what an OUTER JOIN above looks like, complete records from both tables
 
 See image below for more on joins:
 
@@ -656,3 +711,7 @@ List of some of the basic commands:
 * [TechTFQ Youtube](https://www.youtube.com/c/techTFQ)
 * [DataInterview SQL Pad](https://sql.datainterview.com/)
 * [DataLemur](https://datalemur.com/)
+* [LearnSQL](https://learnsql.com/) -> for SQL course
+* [StrataScratch](https://www.stratascratch.com/blog/categories/sql/) -> for practicing SQL queries
+* [LeetCode](https://leetcode.com/problemset/database/) -> for practicing simple SQL queries
+* [Mode SQL](https://mode.com/sql-tutorial/)

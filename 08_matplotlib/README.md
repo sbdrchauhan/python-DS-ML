@@ -543,5 +543,13 @@ sns.violinplot(data=df, x='Position', y='skill')
     <img src="./images/violin_plot.png" />
 </p>
 
+## Data Visualization CheatSheet found on web:
+
+<p align="center">
+    <img src="./images/guide_data_viz.jpeg" />
+</p>
+
+
 ## References:
 * [Matplotlib Tutorials from Corey Schafer](https://www.youtube.com/playlist?list=PL-osiE80TeTvipOqomVEeZ1HRrcEvtZB_)
+* [Data Viz Guide 1](https://www.tapclicks.com/resources/blog/data-visualization-types/)

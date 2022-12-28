@@ -234,6 +234,9 @@ All in all, there is no one-size-fit-all model that will work for all the proble
 * Network with other professionals in the field, attend conferences and workshops, and stay up-to-date on the latest development and trends in the field.
 * Be wlling to continuously learn and adapt, as the field of ML is constantly evolving and new technologies and appproaches are constantly emerging.
 
+## Training, validation and Testing data
+After doing shuffle of the data, we need to divide whole dataset into three parts i.e. training, validation, and test sets. In short, training set is used to train our models that will learn from this dataset, validation set is used to fine refine our models based on the results here. After seeing how it behaved on validation set, one can go back and tune hyperparameters and again and again to fit it better. Finally, test is where the real performance measures are tested. This process will help to reduce overfitting the model which basically means that the model is picking every noise from the data. The size of training, validation, and testing dataset depends on the size of the dataset itself, and the kind of work you do, but a general guideline is trainng takes 80%, validation takes 10%, and test set takes 10% of whole shuffled dataset.
+
 ## References:
 * [Dan twitter](https://twitter.com/DanKornas)
 * [Google dev. ml course](https://developers.google.com/machine-learning/)
