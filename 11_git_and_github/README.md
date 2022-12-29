@@ -205,4 +205,7 @@ Also, see the following Git Cheat Sheet!
 
 ![git cheat sheet](./Git_cheat_sheet.jpeg)
 
+## Reference/Resources
+* [MIT missing csail class](https://missing.csail.mit.edu/2020/version-control/) nice one
+
 
