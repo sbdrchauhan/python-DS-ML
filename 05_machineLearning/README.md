@@ -234,8 +234,15 @@ All in all, there is no one-size-fit-all model that will work for all the proble
 * Network with other professionals in the field, attend conferences and workshops, and stay up-to-date on the latest development and trends in the field.
 * Be wlling to continuously learn and adapt, as the field of ML is constantly evolving and new technologies and appproaches are constantly emerging.
 
+# Concepts in Machine Learning
+
 ## Training, validation and Testing data
 After doing shuffle of the data, we need to divide whole dataset into three parts i.e. training, validation, and test sets. In short, training set is used to train our models that will learn from this dataset, validation set is used to fine refine our models based on the results here. After seeing how it behaved on validation set, one can go back and tune hyperparameters and again and again to fit it better. Finally, test is where the real performance measures are tested. This process will help to reduce overfitting the model which basically means that the model is picking every noise from the data. The size of training, validation, and testing dataset depends on the size of the dataset itself, and the kind of work you do, but a general guideline is trainng takes 80%, validation takes 10%, and test set takes 10% of whole shuffled dataset.
+
+## Accuracy, Overfitting, Underfitting
+In machine learning, accuracy is a measure of how well the model is able to make predictions on new examples. It is usually measured as the percentage of correct predictions made by the model. Overfitting occurs when the model has learned the training data too well and is not able to generalize to new examples. This means that the model will have high accuracy on the training data, but low accuracy on the validation and test data. Underfitting occurs when the model is not able to learn the underlying patterns in the training data. This means that the model will have low accuracy on the training data, as well as low accuracy on the validation and test data. To prevent overfitting, it is important to use a sufficient amount of training data and to use regularization techniques, such as early stopping or weight decay. To prevent underfitting, it is important to use a model with enough capacity (e.g., a deep neural network with enough layers and units) and to tune the hyperparameters of the model to find the best fit for the data. It is important to monitor the accuracy on the validation and test sets during the training process to ensure that the model is not overfitting or underfitting. If the accuracy on the validation set is significantly lower than the accuracy on the training set, it is a sign of overfitting. If the accuracy is low on both the training and validation sets, it is a sign of underfitting.
+
+
 
 ## References:
 * [Dan twitter](https://twitter.com/DanKornas)

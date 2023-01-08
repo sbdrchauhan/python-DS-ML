@@ -31,6 +31,14 @@ SQL commands, overall can be categorized into **5 types**. See below for the ima
 
 A table in SQL is a type of entity (i.e. Dogs), and each row in that table as a specific *instance* of that type (i.e. A pug, a beagle, a different colored pug, etc.). This means that the columns would then represent the common properties shared by all instances of that entity (i.e. Color of fur, length of tail, etc.)
 
+## quick mysql server status commands
+```bash
+sudo service mysql status   # to check the status
+sudo service mysql stop     # to stop mysql service
+sudo service mysql start    # to start server
+sudo service mysql restart  # to re-start server
+```
+
 ## Create Database:
 ```sql
 CREATE DATABASE name;    /* this command creates database */
@@ -702,6 +710,95 @@ List of some of the basic commands:
     <img src="./images/sql_basic_commands.jpeg" />
 </p>
 
+
+# SQL Crash Course with Corise  -- by Sourabh Bajaj
+Link [here](https://corise.com/course/sql-crash-course).
+
+## Week 1
+Let's see what we are expecting to learn in Week 1.
+
+<p align="center">
+    <img src="./images/wk1_overview.png" />
+</p>
+
+## Order of Precedence in SQL
+1. Arithmetic operators
+2. Concatenation
+3. `=, <, >, <=, >= !=`
+4. `IS NULL`
+5. `LIKE`
+6. `IN`
+7. `BETWEEN`
+8. `NOT`
+9. `AND`
+10. `OR`
+
+### What is SQL?
+SQL (Structured Query Language) is a programming language that is specifically designed to access and manipulate data stored within different databases. SQL allows you to pull data out of large databases to answer business questions. For example, at Amazon, you could ask questions like: "What are the top selling baby products in July-Sept?" At Netflix, you could ask: "How many people converted from trial to a full subscription?" And at CoRise, we can ask questions like "How many learners attended the first lecture for SQL Crash Course?"
+
+### Why learn SQL?
+* It can handle much larger volumes of data than Excel. You can handle *billions* of data points whereas Excel has a limit of about 1 million.
+* You can start analyzing data and help your organization make better decisions without having to be dependent on Data Engineers and Data Scientists.
+* Or you can be a software engineer that is trying to build cool and interesting apps.
+
+Look at the following image of what is happening when we query on database.
+
+<p align="center">
+    <img src="./images/dbqsys.png" />
+</p>
+
+**Table:** A single table generally represents data about a single object. So at Airbnb, we would come across tables like: users, listings, bookings, reviews, etc. As a simple mental model, you should think of a table as a single spreadsheet in Excel.
+
+**Database:** A database is a collection of tables that might be linked together via some defined relationships. So continuing our Airbnb example, we might have one database that contains all of our different tables.
+
+**Query:** A query is a piece of SQL code that the database processes and takes action on. In the query that we ran in the previous section, it returned us with some data.
+
+
+### Table Schemas - Columns and Rows
+The structure of a table is described by its schema -  the **schema** is the name of the table and two pieces of information about each column in the table:
+* **Name** of the column
+* **Data type** of the column (integer, text, date, etc.)
+
+Data types refer to the set of valid values a column can take. There are many data types supported in SQL, but let's look at three for illustration purposes:
+* **Integer** refers to whole numbers such as -23, 36, and 0
+* **Text** refers to a string or an array of characters
+* **Date** refers to a representation of a date, such as 1/1/2023
+
+>**Excel vs Database:**
+>NOTE: A single column in a table can only contain data of one type. So if a column is of type integer then we can only put numbers inside it. This isn't something that is enforced by spreadsheets. 
+
+Tables in database are always related to each other in some ways. Here is an example where **listing** table is liked with *listing_id* is linked with *neighborhood_id* to **neighborhood** table.
+
+<p align="center">
+    <img src="./images/idlink.png" />
+</p>
+
+and neighborhood tablw will have info with neighborhood id and what neighborhood it is located in. In our learning we will use the following table schemas to easy learning the concepts.
+
+<p align="center">
+    <img src="./images/schemalin.png" />
+</p>
+
+**Comparing dates** To compare date-type object you can just treat them as text and put the yyyy-mm-dd form in single quotes. So a comparison would look something like;
+```sql
+SELECT * FROM reviews WHERE date < '2019-06-16';
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Resources:
 
 * [SQLBolt](https://sqlbolt.com/)
@@ -715,3 +812,5 @@ List of some of the basic commands:
 * [StrataScratch](https://www.stratascratch.com/blog/categories/sql/) -> for practicing SQL queries
 * [LeetCode](https://leetcode.com/problemset/database/) -> for practicing simple SQL queries
 * [Mode SQL](https://mode.com/sql-tutorial/)
+* [8weeks sql challenge](https://8weeksqlchallenge.com/)
+* [sql zoo](https://sqlzoo.net/wiki/SQL_Tutorial)
